@@ -1,0 +1,9 @@
+{
+  "id": "computer-vision",
+  "name": "Computer Vision",
+  "category": "ai",
+  "proficiency": 3,
+  "yearsExperience": 2,
+  "description": "OpenCV, image processing",
+  "icon": "simple-icons:opencv"
+}

@@ -1,0 +1,9 @@
+{
+  "id": "data-viz",
+  "name": "Data Visualization",
+  "category": "data",
+  "proficiency": 4,
+  "yearsExperience": 3,
+  "description": "Seaborn, Matplotlib",
+  "icon": "tabler:chart-dots"
+}

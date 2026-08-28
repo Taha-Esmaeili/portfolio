@@ -1,0 +1,44 @@
+---
+interface Props {
+  children: any;
+  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+  dot?: boolean;
+  dotColor?: string;
+}
+
+const { children, variant = 'primary', size = 'md', class: className = '', dot = false, dotColor } = Astro.props;
+
+const variantClasses = {
+  primary: 'bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200',
+  secondary: 'bg-surface-100 text-surface-700 dark:bg-surface-800 dark:text-surface-300',
+  success: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+  warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+  error: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+};
+
+const sizeClasses = {
+  sm: 'px-2 py-0.5 text-xs',
+  md: 'px-2.5 py-0.5 text-sm',
+  lg: 'px-3 py-1 text-base',
+};
+
+const classes = `
+  inline-flex items-center gap-1.5 rounded-full font-medium
+  ${variantClasses[variant]}
+  ${sizeClasses[size]}
+  ${className}
+`.trim();
+---
+
+<span class={classes}>
+  {dot && <span class="w-1.5 h-1.5 rounded-full" style={`background-color: ${dotColor || 'currentColor'}`} aria-hidden="true" />}
+  <slot />
+</span>
+
+<style>
+  :host {
+    display: inline-flex;
+  }
+</style>

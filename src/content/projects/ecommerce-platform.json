@@ -1,0 +1,14 @@
+{
+  "id": "ecommerce-platform",
+  "title": "E-Commerce Platform",
+  "description": "A full-stack e-commerce solution built with React, Node.js, and PostgreSQL. Features include real-time inventory management, secure payment processing with Stripe, automated order fulfillment, and a comprehensive admin dashboard. The platform handles 10,000+ daily active users with 99.9% uptime.",
+  "shortDescription": "Scalable e-commerce platform with real-time inventory and payment processing",
+  "image": "/images/projects/ecommerce.svg",
+  "techStack": ["React", "TypeScript", "Node.js", "PostgreSQL", "Redis", "Docker", "AWS", "Stripe"],
+  "liveUrl": "https://demo.example.com",
+  "codeUrl": "https://github.com/tahaes/ecommerce-platform",
+  "featured": true,
+  "startDate": "2024-01-15T00:00:00Z",
+  "endDate": "2024-06-30T00:00:00Z",
+  "category": "web"
+}

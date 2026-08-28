@@ -1,0 +1,51 @@
+---
+interface Props {
+  sectionIds: string[];
+  onChange?: (id: string) => void;
+  children: any;
+}
+
+const { sectionIds, onChange, children } = Astro.props;
+---
+
+<div class="relative">
+  <slot />
+</div>
+
+<script is:inline>
+  const sectionIds = JSON.parse('{JSON.stringify(sectionIds)}');
+  const onChange = (id: string) => {
+    const event = new CustomEvent('scrollspy:change', { detail: { id } });
+    window.dispatchEvent(event);
+  };
+  
+  if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            onChange(entry.target.id);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '-20% 0px -60% 0px',
+        threshold: 0,
+      }
+    );
+    
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+    
+    window.addEventListener('beforeunload', () => observer.disconnect());
+  }
+</script>
+
+<style>
+  :host {
+    display: contents;
+  }
+</style>

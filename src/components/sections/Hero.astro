@@ -1,0 +1,101 @@
+---
+import Section from '../common/Section.astro';
+import Container from '../common/Container.astro';
+import Button from '../common/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  name: string;
+  title: string;
+  tagline: string;
+  bio: string;
+  avatar: string;
+  socialLinks: Array<{ platform: string; url: string; label: string; icon: string }>;
+  email: string;
+  expertise?: string[];
+}
+
+const { name, title, tagline, bio, avatar, socialLinks, email, expertise = [] } = Astro.props;
+---
+
+<Section id="hero" aria-label="Introduction">
+  <div class="relative min-h-[90vh] flex items-center justify-center pt-16 lg:pt-20">
+    <div class="container relative z-10">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div class="text-center lg:text-left animate-in">
+          <p class="text-primary-600 dark:text-primary-400 font-medium mb-4">Hey there! 👋</p>
+          <h1 class="text-fluid-4xl font-bold text-surface-900 dark:text-surface-50 mb-4 text-balance">
+            I'm <span class="text-primary-600 dark:text-primary-400">{name}</span>
+          </h1>
+          <h2 class="text-fluid-2xl font-medium text-surface-700 dark:text-surface-300 mb-6">{title}</h2>
+          <p class="text-fluid-lg text-surface-600 dark:text-surface-400 mb-6 max-w-xl mx-auto lg:mx-0">{tagline}</p>
+
+          {expertise.length > 0 && (
+            <div class="flex flex-wrap gap-2 justify-center lg:justify-start mb-8 animate-in delay-100" role="list" aria-label="Areas of expertise">
+              {expertise.map((item) => (
+                <span class="badge badge-primary">{item}</span>
+              ))}
+            </div>
+          )}
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10 animate-in delay-200">
+            <Button href="#experience" variant="primary" size="lg">
+              View Experience
+              <Icon name="tabler:arrow-right" class="w-5 h-5" aria-hidden="true" />
+            </Button>
+            <Button href={`mailto:${email}`} variant="secondary" size="lg">
+              <Icon name="mdi:email" class="w-5 h-5" aria-hidden="true" />
+              Get In Touch
+            </Button>
+          </div>
+          
+          <div class="flex flex-wrap justify-center lg:justify-start gap-6 animate-in delay-300" role="list" aria-label="Social links">
+            {socialLinks.map((social) => (
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="p-3 rounded-xl text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-surface-100 dark:hover:bg-surface-800 transition-all duration-200"
+                aria-label={social.label}
+              >
+                <Icon name={social.icon} class="w-6 h-6" aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+        </div>
+        
+        <div class="relative animate-in delay-100">
+          <div class="relative w-64 h-64 lg:w-80 lg:h-80 mx-auto lg:mx-0">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-full blur-2xl animate-pulse" aria-hidden="true" />
+            <div class="absolute inset-4 bg-gradient-to-br from-primary-500/10 to-primary-600/10 rounded-full blur-xl" aria-hidden="true" />
+            <Image
+              src={avatar}
+              alt={`${name} - ${title}`}
+              class="relative w-full h-full object-cover rounded-full border-4 border-surface-200 dark:border-surface-800 shadow-soft-lg"
+              width={320}
+              height={320}
+              loading="eager"
+              priority
+            />
+          </div>
+          <div class="absolute -bottom-6 -right-6 lg:-bottom-8 lg:-right-8 w-20 h-20 lg:w-24 lg:h-24 bg-primary-500 rounded-full flex items-center justify-center shadow-soft-lg animate-bounce" aria-hidden="true">
+            <Icon name="tabler:code" class="w-10 h-10 text-white" aria-hidden="true" />
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce" aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-surface-400 dark:text-surface-500">
+        <path d="M12 5v14M19 12l-7 7-7-7" />
+      </svg>
+    </div>
+  </div>
+</Section>
+
+<style>
+  :host {
+    display: block;
+  }
+</style>

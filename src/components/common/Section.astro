@@ -1,0 +1,34 @@
+---
+import Container from './Container.astro';
+
+interface Props {
+  id: string;
+  title?: string;
+  subtitle?: string;
+  class?: string;
+  children: any;
+  ariaLabel?: string;
+}
+
+const { id, title, subtitle, class: className = '', children, ariaLabel } = Astro.props;
+---
+
+<section id={id} class={`section ${className}`} aria-labelledby={title ? `${id}-title` : undefined} aria-label={ariaLabel}>
+  <Container class="relative">
+    {title && (
+      <header class="mb-12 text-center animate-in">
+        <h2 id={`${id}-title`} class="section-title">{title}</h2>
+        {subtitle && <p class="section-subtitle mt-4">{subtitle}</p>}
+      </header>
+    )}
+    <div class="relative">
+      <slot />
+    </div>
+  </Container>
+</section>
+
+<style>
+  :host {
+    display: block;
+  }
+</style>

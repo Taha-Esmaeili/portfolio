@@ -1,0 +1,15 @@
+{
+  "id": "roshan",
+  "company": "Roshan",
+  "role": "Computer Vision Intern",
+  "location": "Tehran, Iran (Remote)",
+  "startDate": "2023-07-01T00:00:00Z",
+  "endDate": "2023-07-31T00:00:00Z",
+  "current": false,
+  "achievements": [
+    "Developed skills in training neural models, including Long Short-Term Memory (LSTM) architectures for computer vision tasks.",
+    "Assisted in data preprocessing and model evaluation pipelines for vision applications.",
+    "Gained hands-on experience with deep learning frameworks and experiment tracking."
+  ],
+  "techStack": ["LSTM", "Computer Vision", "PyTorch"]
+}

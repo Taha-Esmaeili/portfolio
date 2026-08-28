@@ -1,0 +1,14 @@
+{
+  "id": "analytics-dashboard",
+  "title": "Analytics Dashboard",
+  "description": "Real-time analytics dashboard for SaaS products with customizable metrics, cohort analysis, and automated reporting. Built with React, D3.js, and ClickHouse for sub-second query performance on billions of events.",
+  "shortDescription": "Real-time analytics with customizable metrics and cohort analysis",
+  "image": "/images/projects/analytics.svg",
+  "techStack": ["React", "TypeScript", "D3.js", "ClickHouse", "Node.js", "Kafka", "Docker"],
+  "liveUrl": "https://analytics.example.com",
+  "codeUrl": "https://github.com/tahaes/analytics-dashboard",
+  "featured": false,
+  "startDate": "2022-11-01T00:00:00Z",
+  "endDate": "2023-02-28T00:00:00Z",
+  "category": "web"
+}

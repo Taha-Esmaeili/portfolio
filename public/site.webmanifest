@@ -1,0 +1,17 @@
+{
+  "name": "Taha Esmaeili - AI & NLP Engineer",
+  "short_name": "Taha Esmaeili",
+  "description": "Building intelligent language systems with NLP, LLMs, and modern machine learning.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#0ea5e9",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

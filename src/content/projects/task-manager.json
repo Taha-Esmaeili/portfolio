@@ -1,0 +1,14 @@
+{
+  "id": "task-manager",
+  "title": "TaskFlow - Project Management Tool",
+  "description": "A collaborative project management application with real-time updates, Kanban boards, Gantt charts, and team analytics. Built with a microservices architecture using React, GraphQL, and Kubernetes. Features drag-and-drop task management, time tracking, and integrations with Slack and GitHub.",
+  "shortDescription": "Real-time project management with Kanban, Gantt charts, and team analytics",
+  "image": "/images/projects/taskflow.svg",
+  "techStack": ["React", "TypeScript", "GraphQL", "Apollo", "PostgreSQL", "Kubernetes", "Go", "Redis"],
+  "liveUrl": "https://taskflow.example.com",
+  "codeUrl": "https://github.com/tahaes/taskflow",
+  "featured": true,
+  "startDate": "2023-08-01T00:00:00Z",
+  "endDate": "2023-12-20T00:00:00Z",
+  "category": "web"
+}

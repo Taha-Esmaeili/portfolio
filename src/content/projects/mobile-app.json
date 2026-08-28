@@ -1,0 +1,14 @@
+{
+  "id": "mobile-app",
+  "title": "FitTrack - Fitness Tracking App",
+  "description": "Cross-platform fitness tracking application with workout planning, progress tracking, and social features. Built with React Native, TypeScript, and Firebase. Features offline-first architecture, push notifications, and HealthKit/Google Fit integration.",
+  "shortDescription": "Cross-platform fitness app with offline support and health integrations",
+  "image": "/images/projects/fittrack.svg",
+  "techStack": ["React Native", "TypeScript", "Firebase", "Redux Toolkit", "HealthKit", "Google Fit"],
+  "liveUrl": "https://apps.apple.com/app/fittrack",
+  "codeUrl": "https://github.com/tahaes/fittrack",
+  "featured": false,
+  "startDate": "2022-06-01T00:00:00Z",
+  "endDate": "2022-10-31T00:00:00Z",
+  "category": "mobile"
+}

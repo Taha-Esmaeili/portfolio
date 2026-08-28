@@ -1,0 +1,15 @@
+{
+  "id": "quera-mentor",
+  "company": "Quera",
+  "role": "Data Science Mentor & Course Developer",
+  "location": "Tehran, Iran (Remote)",
+  "startDate": "2024-02-01T00:00:00Z",
+  "endDate": "2026-06-30T00:00:00Z",
+  "current": false,
+  "achievements": [
+    "Designed and developed the highly successful \"Linear Algebra\" course as the sole author.",
+    "Collaborated on curriculum design and content creation for \"Probability & Statistics\" and \"Recommender Systems\" courses.",
+    "Mentored students across 5 core AI/Data courses: NLP, LLMs, Probability & Statistics, Recommender Systems, and Linear Algebra."
+  ],
+  "techStack": ["Python", "Linear Algebra", "Statistics", "Recommender Systems"]
+}

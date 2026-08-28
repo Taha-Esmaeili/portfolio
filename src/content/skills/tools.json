@@ -1,0 +1,9 @@
+{
+  "id": "tools",
+  "name": "Developer Tools",
+  "category": "tools",
+  "proficiency": 4,
+  "yearsExperience": 4,
+  "description": "Git, LaTeX",
+  "icon": "simple-icons:git"
+}

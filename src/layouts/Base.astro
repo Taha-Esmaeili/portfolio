@@ -1,0 +1,94 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: 'website' | 'article';
+  profile?: any;
+  children: any;
+}
+
+const {
+  title = 'Taha Esmaeili - AI & NLP Engineer',
+  description = 'Building intelligent language systems with NLP, LLMs, and modern machine learning.',
+  image = '/images/og-image.svg',
+  url = 'https://tahaes.dev',
+  type = 'website',
+  profile,
+  children,
+} = Astro.props;
+
+import '../styles/global.css';
+import { generateSEOMeta, generatePersonSchema, generateWebSiteSchema } from '../utils/seo';
+
+const seoMeta = generateSEOMeta({ title, description, image, url, type });
+
+const personSchema = generatePersonSchema({
+  name: profile?.name || 'Taha Esmaeili',
+  title: profile?.title || 'AI & NLP Engineer',
+  url: url,
+  image: profile?.avatar ? `${url}${profile.avatar}` : `${url}/images/avatar.svg`,
+  email: profile?.email || 'taha.karbalaee@gmail.com',
+  worksFor: { name: profile?.socialLinks?.[0]?.label || '' },
+  sameAs: (profile?.socialLinks || []).map((s: any) => s.url),
+  knowsAbout: profile?.expertise || ['Natural Language Processing', 'Large Language Models', 'Machine Learning', 'Data Science'],
+});
+
+const websiteSchema = generateWebSiteSchema({
+  name: `${profile?.name || 'Taha Esmaeili'} - Portfolio`,
+  url: url,
+  author: { name: profile?.name || 'Taha Esmaeili', url: url },
+});
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" /></noscript>
+    
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0ea5e9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c4a6e" media="(prefers-color-scheme: dark)" />
+    
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    {Object.entries(seoMeta).map(([name, content]) => (
+      name.startsWith('og:') || name.startsWith('twitter:') ? (
+        <meta property={name} content={content} />
+      ) : (
+        <meta name={name} content={content} />
+      )
+    ))}
+    
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    
+    <script is:inline>
+      (function() {
+        try {
+          var theme = localStorage.getItem('portfolio-theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var themeToApply = theme || (prefersDark ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', themeToApply);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="font-sans antialiased">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 px-4 py-2 bg-primary-600 text-white rounded-lg">Skip to main content</a>
+    <slot />
+  </body>
+</html>

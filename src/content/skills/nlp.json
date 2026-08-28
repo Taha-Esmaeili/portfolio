@@ -1,0 +1,9 @@
+{
+  "id": "nlp",
+  "name": "Natural Language Processing",
+  "category": "ai",
+  "proficiency": 5,
+  "yearsExperience": 3,
+  "description": "NLTK, spaCy, Gensim, Hazm",
+  "icon": "simple-icons:huggingface"
+}

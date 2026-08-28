@@ -1,0 +1,15 @@
+{
+  "id": "arman",
+  "company": "Arman Rayan Sharif",
+  "role": "NLP Intern",
+  "location": "Tehran, Iran (Remote)",
+  "startDate": "2025-03-01T00:00:00Z",
+  "endDate": "2025-06-30T00:00:00Z",
+  "current": false,
+  "achievements": [
+    "Specialized in Natural Language Processing, focusing on prompt engineering and fine-tuning LLMs (including GPT variants).",
+    "Worked with Grapheme-to-Phoneme (G2P) conversion systems for speech processing applications.",
+    "Collaborated with the research team to evaluate and benchmark model performance."
+  ],
+  "techStack": ["GPT", "Prompt Engineering", "G2P", "Python"]
+}

@@ -1,0 +1,67 @@
+---
+interface Props {
+  content: string;
+  position?: 'top' | 'bottom' | 'left' | 'right';
+  children: any;
+  class?: string;
+}
+
+const { content, position = 'top', children, class: className = '' } = Astro.props;
+
+const positionClasses = {
+  top: 'bottom-full left-1/2 -translate-x-1/2 mb-2',
+  bottom: 'top-full left-1/2 -translate-x-1/2 mt-2',
+  left: 'right-full top-1/2 -translate-y-1/2 mr-2',
+  right: 'left-full top-1/2 -translate-y-1/2 ml-2',
+};
+
+const arrowClasses = {
+  top: 'border-t-surface-900',
+  bottom: 'border-b-surface-900',
+  left: 'border-l-surface-900',
+  right: 'border-r-surface-900',
+};
+
+const darkArrowClasses = {
+  top: 'border-t-surface-50',
+  bottom: 'border-b-surface-50',
+  left: 'border-l-surface-50',
+  right: 'border-r-surface-50',
+};
+---
+
+<div class={`relative inline-flex ${className}`} tabindex="0" role="tooltip">
+  <slot />
+  <div
+    class={`
+      absolute ${positionClasses[position]}
+      px-3 py-2 text-sm font-medium text-surface-50 bg-surface-900
+      dark:bg-surface-50 dark:text-surface-900
+      rounded-lg shadow-lg whitespace-nowrap
+      opacity-0 invisible transition-all duration-200
+      group-hover:opacity-100 group-hover:visible
+      focus-within:opacity-100 focus-within:visible
+      z-50
+    `}
+    role="tooltip"
+  >
+    {content}
+    <div
+      class={`
+        absolute w-0 h-0 border-4 border-transparent
+        ${position === 'top' ? 'top-full left-1/2 -translate-x-1/2' : ''}
+        ${position === 'bottom' ? 'bottom-full left-1/2 -translate-x-1/2' : ''}
+        ${position === 'left' ? 'left-full top-1/2 -translate-y-1/2' : ''}
+        ${position === 'right' ? 'right-full top-1/2 -translate-y-1/2' : ''}
+        ${arrowClasses[position]} dark:${darkArrowClasses[position]}
+      `}
+      aria-hidden="true"
+    />
+  </div>
+</div>
+
+<style>
+  :host {
+    display: inline-flex;
+  }
+</style>

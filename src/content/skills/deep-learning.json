@@ -1,0 +1,9 @@
+{
+  "id": "deep-learning",
+  "name": "Deep Learning",
+  "category": "ai",
+  "proficiency": 4,
+  "yearsExperience": 3,
+  "description": "TensorFlow, PyTorch, Hugging Face Transformers",
+  "icon": "simple-icons:pytorch"
+}

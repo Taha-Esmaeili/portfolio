@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <rect width="800" height="450" fill="#f0f9ff"/>
+  <path d="M100 350 L200 200 L300 280 L400 180 L500 250 L600 150 L700 300" stroke="#0ea5e9" stroke-width="3" fill="none" opacity="0.3"/>
+  <circle cx="200" cy="200" r="8" fill="#0ea5e9"/>
+  <circle cx="400" cy="180" r="8" fill="#0ea5e9"/>
+  <circle cx="600" cy="150" r="8" fill="#0ea5e9"/>
+  <text x="400" y="100" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="#0369a1" font-weight="bold">Analytics Dashboard</text>
+  <text x="400" y="380" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" fill="#0ea5e9">React • D3.js • ClickHouse</text>
+</svg>

@@ -1,0 +1,132 @@
+@media print {
+  @page {
+    margin: 2cm;
+    size: auto;
+  }
+  
+  html {
+    font-size: 12pt;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+  
+  header,
+  nav,
+  .theme-toggle,
+  footer,
+  .scroll-to-top,
+  .contact-form {
+    display: none !important;
+  }
+  
+  .section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    padding: 1rem 0 !important;
+  }
+  
+  .section-title {
+    font-size: 18pt;
+    color: black !important;
+    border-bottom: 2px solid #333;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .card {
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+  
+  .project-card,
+  .experience-card,
+  .skill-category {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  
+  a {
+    text-decoration: none !important;
+    color: black !important;
+  }
+  
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+  
+  a[href^="mailto:"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+  
+  .btn {
+    display: none !important;
+  }
+  
+  .badge {
+    border: 1px solid #999 !important;
+    background: transparent !important;
+    color: #333 !important;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  .avatar,
+  .project-image,
+  .company-logo {
+    display: none !important;
+  }
+  
+  .timeline-line {
+    display: none !important;
+  }
+  
+  .experience-item {
+    border-left: 3px solid #333;
+    padding-left: 1rem;
+    margin-left: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .experience-date {
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  .skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .skill-item {
+    background: #f5f5f5;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.9em;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  
+  p, li {
+    orphans: 3;
+    widows: 3;
+  }
+}

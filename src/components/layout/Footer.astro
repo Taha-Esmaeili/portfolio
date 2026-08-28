@@ -1,0 +1,110 @@
+---
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  socialLinks: Array<{ platform: string; url: string; label: string; icon: string }>;
+  email: string;
+  name?: string;
+}
+
+const { socialLinks, email, name = 'Taha Esmaeili' } = Astro.props;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-surface-50 dark:bg-surface-950 border-t border-surface-200 dark:border-surface-800" role="contentinfo">
+  <div class="container py-12 lg:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+      <div>
+        <h3 class="text-lg font-semibold text-surface-900 dark:text-surface-50 mb-4">{name}</h3>
+        <p class="text-surface-600 dark:text-surface-400 text-sm leading-relaxed mb-6">
+          AI &amp; NLP Engineer building intelligent language systems with modern machine learning.
+        </p>
+        <div class="flex gap-4">
+          {socialLinks.map((social) => (
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="p-2 rounded-lg text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-surface-100 dark:hover:bg-surface-800 transition-all duration-200"
+              aria-label={social.label}
+            >
+              <Icon name={social.icon} class="w-5 h-5" aria-hidden="true" />
+            </a>
+          ))}
+        </div>
+      </div>
+      
+      <div>
+        <h4 class="font-medium text-surface-900 dark:text-surface-50 mb-4">Connect</h4>
+        <ul class="space-y-3" role="list">
+          {socialLinks.map((social) => (
+            <li>
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-3 text-sm text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+              >
+                <Icon name={social.icon} class="w-5 h-5 flex-shrink-0" aria-hidden="true" />
+                <span>{social.label}</span>
+              </a>
+            </li>
+          ))}
+          <li>
+            <a
+              href={`mailto:${email}`}
+              class="flex items-center gap-3 text-sm text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+            >
+              <Icon name="mdi:email" class="w-5 h-5 flex-shrink-0" aria-hidden="true" />
+              <span>{email}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="font-medium text-surface-900 dark:text-surface-50 mb-4">Quick Links</h4>
+        <nav aria-label="Footer navigation">
+          <ul class="space-y-3" role="list">
+            <li><a href="#experience" class="text-sm text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Experience</a></li>
+            <li><a href="#skills" class="text-sm text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Skills</a></li>
+            <li><a href="#education" class="text-sm text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Education</a></li>
+            <li><a href="#certifications" class="text-sm text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Certifications</a></li>
+            <li><a href="#contact" class="text-sm text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    
+    <div class="mt-12 pt-8 border-t border-surface-200 dark:border-surface-800 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-surface-500 dark:text-surface-400">
+        &copy; {currentYear} {name}. Built with Astro, Tailwind CSS & TypeScript.
+      </p>
+      <a
+        href="#"
+        class="scroll-to-top p-2 rounded-lg text-surface-500 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-surface-100 dark:hover:bg-surface-800 transition-all duration-200"
+        aria-label="Back to top"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 15l-6-6-6 6" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const scrollToTop = document.querySelector('.scroll-to-top');
+  if (scrollToTop) {
+    scrollToTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+</script>
+
+<style>
+  :host {
+    display: block;
+  }
+</style>

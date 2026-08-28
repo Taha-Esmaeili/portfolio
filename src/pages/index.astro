@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/Base.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import Skills from '../components/sections/Skills.astro';
+import Experience from '../components/sections/Experience.astro';
+import Education from '../components/sections/Education.astro';
+import Certifications from '../components/sections/Certifications.astro';
+import Contact from '../components/sections/Contact.astro';
+import { getCollection } from 'astro:content';
+
+const profileData = await getCollection('profile');
+const skillsData = await getCollection('skills');
+const experienceData = await getCollection('experience');
+const educationData = await getCollection('education');
+const certificationsData = await getCollection('certifications');
+
+const profile = profileData[0]?.data;
+const skills = skillsData.map(s => s.data).sort((a, b) => b.proficiency - a.proficiency || b.yearsExperience - a.yearsExperience);
+const experiences = experienceData.map(e => e.data).sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+const education = educationData.map(e => e.data);
+const certifications = certificationsData.map(c => c.data);
+
+const navigation = [
+  { label: 'Experience', href: '#experience' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Education', href: '#education' },
+  { label: 'Certifications', href: '#certifications' },
+  { label: 'Contact', href: '#contact' },
+];
+
+const socialLinks = profile?.socialLinks || [];
+const email = profile?.email || 'taha@example.com';
+const location = profile?.location || 'Tehran, Iran';
+const phone = profile?.phone;
+const expertise = profile?.expertise || [];
+const languages = profile?.languages || [];
+---
+
+<BaseLayout
+  title={`${profile?.name || 'Taha Esmaeili'} - ${profile?.title || 'AI & NLP Engineer'}`}
+  description={profile?.bio || ''}
+  profile={profile}
+>
+  <Header {navigation} />
+
+  <main id="main" role="main">
+    <Hero
+      name={profile?.name || 'Taha Esmaeili'}
+      title={profile?.title || 'AI & NLP Engineer'}
+      tagline={profile?.tagline || ''}
+      bio={profile?.bio || ''}
+      avatar={profile?.avatar || '/images/avatar.svg'}
+      socialLinks={socialLinks}
+      email={email}
+      expertise={expertise}
+    />
+
+    <Experience experiences={experiences} />
+
+    <Skills skills={skills} />
+
+    <Education education={education} languages={languages} />
+
+    <Certifications certifications={certifications} />
+
+    <Contact email={email} socialLinks={socialLinks} location={location} phone={phone} />
+  </main>
+
+  <Footer socialLinks={socialLinks} email={email} name={profile?.name} />
+</BaseLayout>
+
+<script is:inline>
+  const sections = ['hero', 'experience', 'skills', 'education', 'certifications', 'contact'];
+  const navLinks = document.querySelectorAll('header nav a[href^="#"]');
+
+  function updateActiveLink() {
+    const scrollPos = window.scrollY + 100;
+
+    sections.forEach((sectionId) => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+
+        if (scrollPos >= top && scrollPos < top + height) {
+          navLinks.forEach((link) => {
+            link.classList.toggle('text-primary-600', link.getAttribute('href') === `#${sectionId}`);
+            link.classList.toggle('dark:text-primary-400', link.getAttribute('href') === `#${sectionId}`);
+            link.classList.toggle('font-medium', link.getAttribute('href') === `#${sectionId}`);
+          });
+        }
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveLink, { passive: true });
+  updateActiveLink();
+
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href && href !== '#') {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          const headerOffset = 80;
+          const elementPosition = target.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: document.documentElement.style.scrollBehavior === 'auto' ? 'auto' : 'smooth'
+          });
+
+          target.focus({ preventScroll: true });
+        }
+      }
+    });
+  });
+</script>
+
+<style is:global>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+</style>

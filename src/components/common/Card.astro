@@ -1,0 +1,79 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  tags?: string[];
+  actions?: Array<{ label: string; href: string; variant?: 'primary' | 'secondary' | 'ghost'; icon?: string }>;
+  class?: string;
+  href?: string;
+  children?: any;
+}
+
+const {
+  title,
+  description,
+  image,
+  imageAlt,
+  tags = [],
+  actions = [],
+  class: className = '',
+  href,
+  children,
+} = Astro.props;
+
+const Tag = href ? 'a' : 'article';
+---
+
+<Tag class={`card group ${className}`} {href}>
+  {image && (
+    <div class="relative aspect-video overflow-hidden">
+      <Image
+        src={image}
+        alt={imageAlt || ''}
+        class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+        loading="lazy"
+      />
+    </div>
+  )}
+  <div class="p-6">
+    {children ? (
+      <slot />
+    ) : (
+      <>
+        {title && <h3 class="text-xl font-semibold text-surface-900 dark:text-surface-50 mb-2">{title}</h3>}
+        {description && <p class="text-surface-600 dark:text-surface-400 mb-4">{description}</p>}
+        {tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mb-4" aria-label="Technologies">
+            {tags.map((tag) => (
+              <span class="badge badge-secondary">{tag}</span>
+            ))}
+          </div>
+        )}
+        {actions.length > 0 && (
+          <div class="flex flex-wrap gap-3">
+            {actions.map((action) => (
+              <Button
+                href={action.href}
+                variant={action.variant || 'primary'}
+                size="sm"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {action.icon && <Icon name={action.icon} class="w-4 h-4" />}
+                {action.label}
+              </Button>
+            ))}
+          </div>
+        )}
+      </>
+    )}
+  </div>
+</Tag>
+
+<style>
+  :host {
+    display: block;
+  }
+</style>

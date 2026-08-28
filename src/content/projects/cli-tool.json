@@ -1,0 +1,14 @@
+{
+  "id": "cli-tool",
+  "title": "DevCLI - Developer Productivity Tool",
+  "description": "A command-line tool that automates repetitive development tasks: project scaffolding, dependency updates, code generation, and deployment workflows. Written in Go with a plugin architecture. Used by 500+ developers across 50+ companies.",
+  "shortDescription": "CLI tool for automating dev workflows with plugin architecture",
+  "image": "/images/projects/devcli.svg",
+  "techStack": ["Go", "Cobra", "Viper", "Docker", "GitHub Actions"],
+  "liveUrl": "https://github.com/tahaes/devcli/releases",
+  "codeUrl": "https://github.com/tahaes/devcli",
+  "featured": true,
+  "startDate": "2023-03-01T00:00:00Z",
+  "endDate": "2023-07-15T00:00:00Z",
+  "category": "cli"
+}
