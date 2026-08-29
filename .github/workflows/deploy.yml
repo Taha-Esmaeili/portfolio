@@ -22,7 +22,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: node -v && npm -v
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
       - run: npm run build
       - run: touch dist/.nojekyll
       - uses: actions/upload-pages-artifact@v3
