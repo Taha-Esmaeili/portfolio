@@ -110,7 +110,7 @@ const { email, socialLinks, location, phone } = Astro.props;
         </div>
         
         <p class="text-xs text-surface-500 dark:text-surface-400 text-center">
-          By submitting this form, you agree to my <a href="/privacy" class="link">Privacy Policy</a>. No spam, ever.
+           By submitting this form, you agree to my <a href={`${import.meta.env.BASE_URL}/privacy`} class="link">Privacy Policy</a>. No spam, ever.
         </p>
       </form>
       
