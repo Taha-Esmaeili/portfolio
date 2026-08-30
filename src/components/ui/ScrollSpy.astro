@@ -12,9 +12,8 @@ const { sectionIds, onChange, children } = Astro.props;
   <slot />
 </div>
 
-<script is:inline>
-  const sectionIds = JSON.parse('{JSON.stringify(sectionIds)}');
-  const onChange = (id: string) => {
+<script is:inline define:vars={{ sectionIds }}>
+  const onChange = (id) => {
     const event = new CustomEvent('scrollspy:change', { detail: { id } });
     window.dispatchEvent(event);
   };

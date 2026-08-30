@@ -120,14 +120,14 @@ const { email, socialLinks, location, phone } = Astro.props;
 </Section>
 
 <script>
-  const form = document.getElementById('contact-form');
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
   const toast = document.getElementById('form-toast');
-  
+
   if (form && toast) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      const submitBtn = form.querySelector('button[type="submit"]');
+
+      const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
       const originalText = submitBtn?.innerHTML;
       
       if (submitBtn) {

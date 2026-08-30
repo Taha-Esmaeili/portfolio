@@ -24,6 +24,8 @@ jobs:
       - run: node -v && npm -v
       - run: npm ci --legacy-peer-deps
       - run: npm run build
+        working-directory: admin
+      - run: npm run build
       - run: touch dist/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:

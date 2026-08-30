@@ -107,8 +107,8 @@ const categories = ['all', 'featured', ...new Set(projects.map(p => p.category))
 </Section>
 
 <script>
-  const tabs = document.querySelectorAll('[role="tab"]');
-  const panels = document.querySelectorAll('[role="tabpanel"]');
+  const tabs = document.querySelectorAll<HTMLElement>('[role="tab"]');
+  const panels = document.querySelectorAll<HTMLElement>('[role="tabpanel"]');
   
   tabs.forEach((tab) => {
     tab.addEventListener('click', () => {
@@ -137,8 +137,11 @@ const categories = ['all', 'featured', ...new Set(projects.map(p => p.category))
         e.preventDefault();
         const index = Array.from(tabs).indexOf(tab);
         const nextIndex = e.key === 'ArrowRight' ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
-        tabs[nextIndex].click();
-        tabs[nextIndex].focus();
+        const nextTab = tabs[nextIndex];
+        if (nextTab) {
+          nextTab.click();
+          nextTab.focus();
+        }
       }
     });
   });

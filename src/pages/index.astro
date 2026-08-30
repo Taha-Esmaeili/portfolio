@@ -30,7 +30,7 @@ const navigation = [
   { label: 'Contact', href: '#contact' },
 ];
 
-const socialLinks = profile?.socialLinks || [];
+const socialLinks = (profile?.socialLinks || []).map((s) => ({ ...s, icon: s.icon ?? 'mdi:link-variant' }));
 const email = profile?.email || 'taha@example.com';
 const location = profile?.location || 'Tehran, Iran';
 const phone = profile?.phone;

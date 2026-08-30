@@ -83,7 +83,7 @@ const websiteSchema = generateWebSiteSchema({
           var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
           var themeToApply = theme || (prefersDark ? 'dark' : 'light');
           document.documentElement.setAttribute('data-theme', themeToApply);
-        } catch (e) {}
+        } catch {}
       })();
     </script>
   </head>
