@@ -1,33 +1,34 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 
-export function PinScreen({ onVerify }: { onVerify: () => void }) {
-  const { pin, verifyPin, setPin } = useAuth();
+export function PinScreen() {
+  const { hasPin, verifyPin, setPin } = useAuth();
   const [enteredPin, setEnteredPin] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [isSettingPin, setIsSettingPin] = useState(!pin);
+  const [isSettingPin, setIsSettingPin] = useState(!hasPin);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setSubmitting(true);
 
-    if (isSettingPin) {
-      if (enteredPin.length < 4) {
-        setError('PIN must be at least 4 digits');
-        return;
-      }
-      setPin(enteredPin);
-      setIsSettingPin(false);
-      setEnteredPin('');
-      onVerify();
-    } else {
-      if (verifyPin(enteredPin) as unknown as boolean) {
-        setEnteredPin('');
-        onVerify();
+    try {
+      if (isSettingPin) {
+        if (enteredPin.length < 4) {
+          setError('PIN must be at least 4 digits');
+          return;
+        }
+        await setPin(enteredPin);
       } else {
-        setError('Invalid PIN');
-        setEnteredPin('');
+        const ok = await verifyPin(enteredPin);
+        if (!ok) {
+          setError('Invalid PIN');
+          setEnteredPin('');
+        }
       }
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -80,13 +81,14 @@ export function PinScreen({ onVerify }: { onVerify: () => void }) {
 
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors"
+            disabled={submitting}
+            className="w-full py-3 px-4 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors disabled:opacity-50"
           >
-            {isSettingPin ? 'Set PIN & Enter' : 'Unlock'}
+            {submitting ? 'Checking…' : isSettingPin ? 'Set PIN & Enter' : 'Unlock'}
           </button>
         </form>
 
-        {pin && !isSettingPin && (
+        {hasPin && !isSettingPin && (
           <button
             onClick={() => setIsSettingPin(true)}
             className="mt-4 w-full text-sm text-primary-600 hover:underline"

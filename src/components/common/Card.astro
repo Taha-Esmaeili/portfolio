@@ -23,10 +23,10 @@ const {
   actions = [],
   class: className = '',
   href,
-  children,
 } = Astro.props;
 
 const Tag = href ? 'a' : 'article';
+const hasSlot = Astro.slots.has('default');
 ---
 
 <Tag class={`card group ${className}`} {href}>
@@ -41,7 +41,7 @@ const Tag = href ? 'a' : 'article';
     </div>
   )}
   <div class="p-6">
-    {children ? (
+    {hasSlot ? (
       <slot />
     ) : (
       <>

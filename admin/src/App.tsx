@@ -142,7 +142,7 @@ function AdminApp() {
   }, []);
 
   if (!isAuthenticated) return null;
-  if (!isPinVerified) return <PinScreen onVerify={() => {}} />;
+  if (!isPinVerified) return <PinScreen />;
 
   return (
     <div className="min-h-screen bg-surface-50 flex">
@@ -222,7 +222,7 @@ function AppInner() {
     return <LoginScreen />;
   }
   if (!isPinVerified) {
-    return <PinScreen onVerify={() => {}} />;
+    return <PinScreen />;
   }
   return <AdminApp />;
 }
