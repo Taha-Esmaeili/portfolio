@@ -9,6 +9,7 @@ import { SkillsForm } from './sections/SkillsForm';
 import { ExperienceForm } from './sections/ExperienceForm';
 import { EducationForm } from './sections/EducationForm';
 import { CertificationsForm } from './sections/CertificationsForm';
+import { ProjectsForm } from './sections/ProjectsForm';
 import { HeroForm } from './sections/HeroForm';
 import { ContactForm } from './sections/ContactForm';
 import { SectionLoader } from './components/SectionLoader';
@@ -46,6 +47,9 @@ function SectionContent({ section, client, onSave }: {
             break;
           case 'certifications':
             result = await client.getCertifications();
+            break;
+          case 'projects':
+            result = await client.getProjects();
             break;
           case 'hero':
             result = await client.getHero();
@@ -116,6 +120,8 @@ function SectionContent({ section, client, onSave }: {
       return <EducationForm data={data} client={client} saving={saving} />;
     case 'certifications':
       return <CertificationsForm data={data} client={client} saving={saving} />;
+    case 'projects':
+      return <ProjectsForm data={data} client={client} saving={saving} />;
     case 'hero':
       return <HeroForm data={data} onSave={handleSave} saving={saving} />;
     case 'contact':

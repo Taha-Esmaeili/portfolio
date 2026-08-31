@@ -2,6 +2,8 @@ import { createContext, useContext, useState, useCallback, useEffect, type React
 import type { RepoInfo } from '../api/github';
 
 const PIN_HASH_KEY = 'portfolio-admin-pin-hash';
+const TOKEN_KEY = 'portfolio-admin-token';
+const REPO_KEY = 'portfolio-admin-repo';
 
 interface AuthContextType {
   token: string | null;
@@ -32,16 +34,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isPinVerified, setIsPinVerified] = useState(false);
   const [hasPin, setHasPin] = useState(false);
 
-  // Load the stored PIN hash (if the user set one previously)
+  // Restore session (for the current browser tab) and stored PIN hash.
+  // The token lives in sessionStorage: convenient on refresh, but gone
+  // once the tab closes — a deliberate security/convenience tradeoff.
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(PIN_HASH_KEY);
-      if (stored) {
-        setPinHash(stored);
+      const storedToken = sessionStorage.getItem(TOKEN_KEY);
+      const storedRepo = sessionStorage.getItem(REPO_KEY);
+      if (storedToken && storedRepo) {
+        setToken(storedToken);
+        setRepoInfo(JSON.parse(storedRepo));
+      }
+      const storedPin = localStorage.getItem(PIN_HASH_KEY);
+      if (storedPin) {
+        setPinHash(storedPin);
         setHasPin(true);
       }
     } catch {
-      // localStorage unavailable; treat as first run
+      // Storage unavailable; treat as a fresh session
     }
   }, []);
 
@@ -49,6 +59,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setToken(newToken);
     setRepoInfo(newRepoInfo);
     setIsPinVerified(false);
+    try {
+      sessionStorage.setItem(TOKEN_KEY, newToken);
+      sessionStorage.setItem(REPO_KEY, JSON.stringify(newRepoInfo));
+    } catch {
+      // non-fatal
+    }
   }, []);
 
   const verifyPin = useCallback(async (enteredPin: string) => {
@@ -77,6 +93,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setToken(null);
     setRepoInfo(null);
     setIsPinVerified(false);
+    try {
+      sessionStorage.removeItem(TOKEN_KEY);
+      sessionStorage.removeItem(REPO_KEY);
+    } catch {
+      // non-fatal
+    }
   }, []);
 
   const value = {

@@ -1,4 +1,4 @@
-import type { Profile, Skill, SkillCategory, Experience, Education, Certification, HeroContent, ContactContent } from '../types';
+import type { Profile, Skill, SkillCategory, Experience, Education, Certification, Project, HeroContent, ContactContent } from '../types';
 
 const GITHUB_API_BASE = 'https://api.github.com/repos';
 
@@ -219,6 +219,44 @@ export function createGitHubClient(token: string, repoInfo: RepoInfo) {
     });
   }
 
+  async function getProjects(): Promise<Project[]> {
+    const paths = await listFiles('src/content/projects');
+    const items: Project[] = [];
+    for (const path of paths) {
+      const { content } = await getFile(path);
+      items.push(JSON.parse(content));
+    }
+    return items.sort((a, b) => b.startDate.localeCompare(a.startDate));
+  }
+
+  async function updateProject(item: Project): Promise<void> {
+    const { sha } = await getFile(`src/content/projects/${item.id}.json`);
+    await updateFile(`src/content/projects/${item.id}.json`, JSON.stringify(item, null, 2), `Update project: ${item.title}`, sha);
+  }
+
+  async function createProject(item: Project): Promise<void> {
+    await request(`/contents/src/content/projects/${item.id}.json`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        message: `Add project: ${item.title}`,
+        content: btoa(JSON.stringify(item, null, 2)),
+        branch,
+      }),
+    });
+  }
+
+  async function deleteProject(id: string): Promise<void> {
+    const { sha } = await getFile(`src/content/projects/${id}.json`);
+    await request(`/contents/src/content/projects/${id}.json`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        message: `Delete project: ${id}`,
+        sha,
+        branch,
+      }),
+    });
+  }
+
   async function getEducation(): Promise<Education[]> {
     const paths = await listFiles('src/content/education');
     const items: Education[] = [];
@@ -346,6 +384,10 @@ export function createGitHubClient(token: string, repoInfo: RepoInfo) {
     updateCertification,
     createCertification,
     deleteCertification,
+    getProjects,
+    updateProject,
+    createProject,
+    deleteProject,
     getHero,
     updateHero,
     getContact,

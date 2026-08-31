@@ -86,6 +86,21 @@ export interface Certification {
   url?: string;
 }
 
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  shortDescription: string;
+  image: string;
+  techStack: string[];
+  liveUrl?: string;
+  codeUrl?: string;
+  featured: boolean;
+  startDate: string;
+  endDate?: string;
+  category: 'web' | 'mobile' | 'cli' | 'library' | 'other';
+}
+
 export interface HeroContent {
   tagline: string;
   expertiseBadges: string[];
@@ -99,12 +114,13 @@ export interface ContactContent {
   accessKey?: string;
 }
 
-export type SectionKey = 'profile' | 'skills' | 'experience' | 'education' | 'certifications' | 'hero' | 'contact';
+export type SectionKey = 'profile' | 'skills' | 'experience' | 'education' | 'certifications' | 'projects' | 'hero' | 'contact';
 
 export const SECTIONS: { key: SectionKey; label: string; icon: string }[] = [
   { key: 'profile', label: 'Profile', icon: 'User' },
   { key: 'skills', label: 'Skills', icon: 'Code' },
   { key: 'experience', label: 'Experience', icon: 'Briefcase' },
+  { key: 'projects', label: 'Projects', icon: 'Folder' },
   { key: 'education', label: 'Education', icon: 'GraduationCap' },
   { key: 'certifications', label: 'Certifications', icon: 'Award' },
   { key: 'hero', label: 'Hero', icon: 'Home' },
