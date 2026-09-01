@@ -1,5 +1,5 @@
 import { defineCollection, z } from 'astro:content';
-import { glob, file } from 'astro/loaders';
+import { glob } from 'astro/loaders';
 
 const profile = defineCollection({
   loader: glob({ pattern: 'profile.json', base: 'src/content' }),
@@ -96,4 +96,17 @@ const certifications = defineCollection({
   }),
 });
 
-export const collections = { profile, projects, skills, experience, education, certifications };
+const sections = defineCollection({
+  loader: glob({ pattern: 'sections.json', base: 'src/content' }),
+  schema: z.object({
+    hero: z.boolean().default(true),
+    experience: z.boolean().default(true),
+    projects: z.boolean().default(true),
+    skills: z.boolean().default(true),
+    education: z.boolean().default(true),
+    certifications: z.boolean().default(true),
+    contact: z.boolean().default(true),
+  }),
+});
+
+export const collections = { profile, projects, skills, experience, education, certifications, sections };

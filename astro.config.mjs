@@ -5,6 +5,7 @@ import icon from 'astro-icon';
 
 export default defineConfig({
   site: 'https://tahaes.dev',
+  base: '/portfolio',
   integrations: [
     tailwind({ applyBaseStyles: false }),
     sitemap(),

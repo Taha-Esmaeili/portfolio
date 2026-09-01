@@ -7,6 +7,7 @@ import Skills from '../components/sections/Skills.astro';
 import Experience from '../components/sections/Experience.astro';
 import Education from '../components/sections/Education.astro';
 import Certifications from '../components/sections/Certifications.astro';
+import Projects from '../components/sections/Projects.astro';
 import Contact from '../components/sections/Contact.astro';
 import { getCollection } from 'astro:content';
 
@@ -15,22 +16,32 @@ const skillsData = await getCollection('skills');
 const experienceData = await getCollection('experience');
 const educationData = await getCollection('education');
 const certificationsData = await getCollection('certifications');
+const projectsData = await getCollection('projects');
+const sectionsData = await getCollection('sections');
 
 const profile = profileData[0]?.data;
+const sectionConfig = sectionsData[0]?.data;
+// A section is shown unless explicitly turned off in the admin panel.
+const show = (key: keyof NonNullable<typeof sectionConfig>): boolean =>
+  !sectionConfig || sectionConfig[key] !== false;
 const skills = skillsData.map(s => s.data).sort((a, b) => b.proficiency - a.proficiency || b.yearsExperience - a.yearsExperience);
 const experiences = experienceData.map(e => e.data).sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 const education = educationData.map(e => e.data);
 const certifications = certificationsData.map(c => c.data);
+const projects = projectsData
+  .map(p => p.data)
+  .sort((a, b) => Number(b.featured) - Number(a.featured) || new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
 const navigation = [
-  { label: 'Experience', href: '#experience' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Education', href: '#education' },
-  { label: 'Certifications', href: '#certifications' },
+  ...(show('experience') ? [{ label: 'Experience', href: '#experience' }] : []),
+  ...(show('projects') ? [{ label: 'Projects', href: '#projects' }] : []),
+  ...(show('skills') ? [{ label: 'Skills', href: '#skills' }] : []),
+  ...(show('education') ? [{ label: 'Education', href: '#education' }] : []),
+  ...(show('certifications') ? [{ label: 'Certifications', href: '#certifications' }] : []),
   { label: 'Contact', href: '#contact' },
 ];
 
-const socialLinks = profile?.socialLinks || [];
+const socialLinks = (profile?.socialLinks || []).map((s) => ({ ...s, icon: s.icon ?? 'mdi:link-variant' }));
 const email = profile?.email || 'taha@example.com';
 const location = profile?.location || 'Tehran, Iran';
 const phone = profile?.phone;
@@ -46,24 +57,29 @@ const languages = profile?.languages || [];
   <Header {navigation} />
 
   <main id="main" role="main">
-    <Hero
-      name={profile?.name || 'Taha Esmaeili'}
-      title={profile?.title || 'AI & NLP Engineer'}
-      tagline={profile?.tagline || ''}
-      bio={profile?.bio || ''}
-      avatar={profile?.avatar || '/images/avatar.svg'}
-      socialLinks={socialLinks}
-      email={email}
-      expertise={expertise}
-    />
+    {show('hero') && (
+      <Hero
+        name={profile?.name || 'Taha Esmaeili'}
+        title={profile?.title || 'AI & NLP Engineer'}
+        tagline={profile?.tagline || ''}
+        bio={profile?.bio || ''}
+        avatar={profile?.avatar ? `${import.meta.env.BASE_URL}${profile.avatar}` : `${import.meta.env.BASE_URL}/images/avatar.svg`}
+        socialLinks={socialLinks}
+        email={email}
+        expertise={expertise}
+        showExperienceLink={show('experience')}
+      />
+    )}
 
-    <Experience experiences={experiences} />
+    {show('experience') && <Experience experiences={experiences} />}
 
-    <Skills skills={skills} />
+    {show('projects') && <Projects projects={projects} />}
 
-    <Education education={education} languages={languages} />
+    {show('skills') && <Skills skills={skills} />}
 
-    <Certifications certifications={certifications} />
+    {show('education') && <Education education={education} languages={languages} />}
+
+    {show('certifications') && <Certifications certifications={certifications} />}
 
     <Contact email={email} socialLinks={socialLinks} location={location} phone={phone} />
   </main>

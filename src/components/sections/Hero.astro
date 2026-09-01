@@ -14,9 +14,10 @@ interface Props {
   socialLinks: Array<{ platform: string; url: string; label: string; icon: string }>;
   email: string;
   expertise?: string[];
+  showExperienceLink?: boolean;
 }
 
-const { name, title, tagline, bio, avatar, socialLinks, email, expertise = [] } = Astro.props;
+const { name, title, tagline, bio, avatar, socialLinks, email, expertise = [], showExperienceLink = true } = Astro.props;
 ---
 
 <Section id="hero" aria-label="Introduction">
@@ -29,21 +30,26 @@ const { name, title, tagline, bio, avatar, socialLinks, email, expertise = [] } 
             I'm <span class="text-primary-600 dark:text-primary-400">{name}</span>
           </h1>
           <h2 class="text-fluid-2xl font-medium text-surface-700 dark:text-surface-300 mb-6">{title}</h2>
-          <p class="text-fluid-lg text-surface-600 dark:text-surface-400 mb-6 max-w-xl mx-auto lg:mx-0">{tagline}</p>
+          <p class="text-fluid-lg text-surface-600 dark:text-surface-400 mb-4 max-w-xl mx-auto lg:mx-0">{tagline}</p>
+          {bio && (
+            <p class="text-surface-600 dark:text-surface-400 mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed">{bio}</p>
+          )}
 
           {expertise.length > 0 && (
             <div class="flex flex-wrap gap-2 justify-center lg:justify-start mb-8 animate-in delay-100" role="list" aria-label="Areas of expertise">
               {expertise.map((item) => (
-                <span class="badge badge-primary">{item}</span>
+                <span class="badge badge-primary" role="listitem">{item}</span>
               ))}
             </div>
           )}
 
           <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10 animate-in delay-200">
-            <Button href="#experience" variant="primary" size="lg">
-              View Experience
-              <Icon name="tabler:arrow-right" class="w-5 h-5" aria-hidden="true" />
-            </Button>
+            {showExperienceLink && (
+              <Button href="#experience" variant="primary" size="lg">
+                View Experience
+                <Icon name="tabler:arrow-right" class="w-5 h-5" aria-hidden="true" />
+              </Button>
+            )}
             <Button href={`mailto:${email}`} variant="secondary" size="lg">
               <Icon name="mdi:email" class="w-5 h-5" aria-hidden="true" />
               Get In Touch
@@ -56,6 +62,7 @@ const { name, title, tagline, bio, avatar, socialLinks, email, expertise = [] } 
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                role="listitem"
                 class="p-3 rounded-xl text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-surface-100 dark:hover:bg-surface-800 transition-all duration-200"
                 aria-label={social.label}
               >

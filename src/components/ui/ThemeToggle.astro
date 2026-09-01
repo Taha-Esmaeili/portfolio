@@ -29,23 +29,26 @@
 </button>
 
 <script>
-  const toggle = document.getElementById('theme-toggle');
+  const toggle = document.getElementById('theme-toggle') as HTMLButtonElement | null;
   const lightIcon = toggle?.querySelector('.theme-icon-light');
   const darkIcon = toggle?.querySelector('.theme-icon-dark');
-  
+
   if (toggle && lightIcon && darkIcon) {
-  
+
   function updateIcons(theme: string) {
+    const light = lightIcon as Element;
+    const dark = darkIcon as Element;
+    const btn = toggle as HTMLElement;
     if (theme === 'dark') {
-      lightIcon.classList.add('hidden');
-      darkIcon.classList.remove('hidden');
-      toggle.setAttribute('aria-pressed', 'true');
-      toggle.setAttribute('aria-label', 'Switch to light mode');
+      light.classList.add('hidden');
+      dark.classList.remove('hidden');
+      btn.setAttribute('aria-pressed', 'true');
+      btn.setAttribute('aria-label', 'Switch to light mode');
     } else {
-      lightIcon.classList.remove('hidden');
-      darkIcon.classList.add('hidden');
-      toggle.setAttribute('aria-pressed', 'false');
-      toggle.setAttribute('aria-label', 'Switch to dark mode');
+      light.classList.remove('hidden');
+      dark.classList.add('hidden');
+      btn.setAttribute('aria-pressed', 'false');
+      btn.setAttribute('aria-label', 'Switch to dark mode');
     }
   }
   

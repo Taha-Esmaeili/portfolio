@@ -1,4 +1,7 @@
 ---
+import Button from './Button.astro';
+import Icon from '../ui/Icon.astro';
+
 interface Props {
   title?: string;
   description?: string;
@@ -20,16 +23,16 @@ const {
   actions = [],
   class: className = '',
   href,
-  children,
 } = Astro.props;
 
 const Tag = href ? 'a' : 'article';
+const hasSlot = Astro.slots.has('default');
 ---
 
 <Tag class={`card group ${className}`} {href}>
   {image && (
     <div class="relative aspect-video overflow-hidden">
-      <Image
+      <img
         src={image}
         alt={imageAlt || ''}
         class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
@@ -38,7 +41,7 @@ const Tag = href ? 'a' : 'article';
     </div>
   )}
   <div class="p-6">
-    {children ? (
+    {hasSlot ? (
       <slot />
     ) : (
       <>

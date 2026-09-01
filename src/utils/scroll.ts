@@ -56,11 +56,13 @@ export function getActiveSection(sectionIds: string[]): string | null {
   const scrollPosition = window.scrollY + window.innerHeight / 3;
   
   for (let i = sectionIds.length - 1; i >= 0; i--) {
-    const element = document.getElementById(sectionIds[i]);
+    const id = sectionIds[i];
+    if (!id) continue;
+    const element = document.getElementById(id);
     if (element && element.offsetTop <= scrollPosition) {
-      return sectionIds[i];
+      return id;
     }
   }
-  
-  return sectionIds[0] || null;
+
+  return sectionIds[0] ?? null;
 }
