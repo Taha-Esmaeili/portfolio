@@ -23,7 +23,19 @@ export function LoginScreen() {
         },
       });
       if (!response.ok) {
-        throw new Error('Invalid token or repository access denied');
+        // Surface the real status so the user can tell an expired token
+        // (401) apart from missing repo access (403/404).
+        if (response.status === 401) {
+          throw new Error(
+            'Token is invalid or expired (401). Check that you pasted the full token with no extra spaces, and that it has not expired.'
+          );
+        }
+        if (response.status === 403 || response.status === 404) {
+          throw new Error(
+            `Repository access denied (${response.status}). For fine-grained tokens: under "Repository access" select this repo, and ensure "Metadata: Read" permission is granted. Verify owner/repo spelling.`
+          );
+        }
+        throw new Error(`GitHub rejected the login (HTTP ${response.status}). Please try again.`);
       }
       login(token, { owner, repo, branch });
     } catch (e) {
