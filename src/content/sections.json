@@ -1,0 +1,9 @@
+{
+  "hero": true,
+  "experience": true,
+  "projects": true,
+  "skills": true,
+  "education": true,
+  "certifications": true,
+  "contact": true
+}

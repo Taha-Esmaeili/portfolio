@@ -73,9 +73,18 @@ export function createGitHubClient(token: string, repoInfo: RepoInfo) {
   }
 
   // Content-specific helpers
-  async function getProfile(): Promise<Profile> {
-    const { content } = await getFile('src/content/profile.json');
-    return JSON.parse(content);
+  async function getProfile(): Promise<Profile & { sha: string }> {
+    const file = await getFile('src/content/profile.json');
+    return { ...JSON.parse(file.content), sha: file.sha };
+  }
+
+  async function getSectionSettings(): Promise<Record<string, boolean> & { sha: string }> {
+    const file = await getFile('src/content/sections.json');
+    return { ...JSON.parse(file.content), sha: file.sha };
+  }
+
+  async function updateSectionSettings(settings: Record<string, boolean>, sha: string): Promise<void> {
+    await updateFile('src/content/sections.json', JSON.stringify(settings, null, 2), 'Update section visibility', sha);
   }
 
   async function updateProfile(profile: Profile, sha: string): Promise<void> {
@@ -370,6 +379,8 @@ export function createGitHubClient(token: string, repoInfo: RepoInfo) {
     // Content helpers
     getProfile,
     updateProfile,
+    getSectionSettings,
+    updateSectionSettings,
     getSkills,
     updateSkills,
     getExperience,

@@ -114,9 +114,10 @@ export interface ContactContent {
   accessKey?: string;
 }
 
-export type SectionKey = 'profile' | 'skills' | 'experience' | 'education' | 'certifications' | 'projects' | 'hero' | 'contact';
+export type SectionKey = 'sections' | 'profile' | 'skills' | 'experience' | 'education' | 'certifications' | 'projects' | 'hero' | 'contact';
 
 export const SECTIONS: { key: SectionKey; label: string; icon: string }[] = [
+  { key: 'sections', label: 'Sections', icon: 'Eye' },
   { key: 'profile', label: 'Profile', icon: 'User' },
   { key: 'skills', label: 'Skills', icon: 'Code' },
   { key: 'experience', label: 'Experience', icon: 'Briefcase' },

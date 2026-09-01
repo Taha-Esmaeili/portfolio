@@ -17,8 +17,13 @@ const experienceData = await getCollection('experience');
 const educationData = await getCollection('education');
 const certificationsData = await getCollection('certifications');
 const projectsData = await getCollection('projects');
+const sectionsData = await getCollection('sections');
 
 const profile = profileData[0]?.data;
+const sectionConfig = sectionsData[0]?.data;
+// A section is shown unless explicitly turned off in the admin panel.
+const show = (key: keyof NonNullable<typeof sectionConfig>): boolean =>
+  !sectionConfig || sectionConfig[key] !== false;
 const skills = skillsData.map(s => s.data).sort((a, b) => b.proficiency - a.proficiency || b.yearsExperience - a.yearsExperience);
 const experiences = experienceData.map(e => e.data).sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 const education = educationData.map(e => e.data);
@@ -28,11 +33,11 @@ const projects = projectsData
   .sort((a, b) => Number(b.featured) - Number(a.featured) || new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
 const navigation = [
-  { label: 'Experience', href: '#experience' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Education', href: '#education' },
-  { label: 'Certifications', href: '#certifications' },
+  ...(show('experience') ? [{ label: 'Experience', href: '#experience' }] : []),
+  ...(show('projects') ? [{ label: 'Projects', href: '#projects' }] : []),
+  ...(show('skills') ? [{ label: 'Skills', href: '#skills' }] : []),
+  ...(show('education') ? [{ label: 'Education', href: '#education' }] : []),
+  ...(show('certifications') ? [{ label: 'Certifications', href: '#certifications' }] : []),
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -52,26 +57,29 @@ const languages = profile?.languages || [];
   <Header {navigation} />
 
   <main id="main" role="main">
-    <Hero
-      name={profile?.name || 'Taha Esmaeili'}
-      title={profile?.title || 'AI & NLP Engineer'}
-      tagline={profile?.tagline || ''}
-      bio={profile?.bio || ''}
-       avatar={profile?.avatar ? `${import.meta.env.BASE_URL}${profile.avatar}` : `${import.meta.env.BASE_URL}/images/avatar.svg`}
-      socialLinks={socialLinks}
-      email={email}
-      expertise={expertise}
-    />
+    {show('hero') && (
+      <Hero
+        name={profile?.name || 'Taha Esmaeili'}
+        title={profile?.title || 'AI & NLP Engineer'}
+        tagline={profile?.tagline || ''}
+        bio={profile?.bio || ''}
+        avatar={profile?.avatar ? `${import.meta.env.BASE_URL}${profile.avatar}` : `${import.meta.env.BASE_URL}/images/avatar.svg`}
+        socialLinks={socialLinks}
+        email={email}
+        expertise={expertise}
+        showExperienceLink={show('experience')}
+      />
+    )}
 
-    <Experience experiences={experiences} />
+    {show('experience') && <Experience experiences={experiences} />}
 
-    <Projects projects={projects} />
+    {show('projects') && <Projects projects={projects} />}
 
-    <Skills skills={skills} />
+    {show('skills') && <Skills skills={skills} />}
 
-    <Education education={education} languages={languages} />
+    {show('education') && <Education education={education} languages={languages} />}
 
-    <Certifications certifications={certifications} />
+    {show('certifications') && <Certifications certifications={certifications} />}
 
     <Contact email={email} socialLinks={socialLinks} location={location} phone={phone} />
   </main>

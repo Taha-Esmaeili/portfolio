@@ -14,9 +14,10 @@ interface Props {
   socialLinks: Array<{ platform: string; url: string; label: string; icon: string }>;
   email: string;
   expertise?: string[];
+  showExperienceLink?: boolean;
 }
 
-const { name, title, tagline, bio, avatar, socialLinks, email, expertise = [] } = Astro.props;
+const { name, title, tagline, bio, avatar, socialLinks, email, expertise = [], showExperienceLink = true } = Astro.props;
 ---
 
 <Section id="hero" aria-label="Introduction">
@@ -43,10 +44,12 @@ const { name, title, tagline, bio, avatar, socialLinks, email, expertise = [] } 
           )}
 
           <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10 animate-in delay-200">
-            <Button href="#experience" variant="primary" size="lg">
-              View Experience
-              <Icon name="tabler:arrow-right" class="w-5 h-5" aria-hidden="true" />
-            </Button>
+            {showExperienceLink && (
+              <Button href="#experience" variant="primary" size="lg">
+                View Experience
+                <Icon name="tabler:arrow-right" class="w-5 h-5" aria-hidden="true" />
+              </Button>
+            )}
             <Button href={`mailto:${email}`} variant="secondary" size="lg">
               <Icon name="mdi:email" class="w-5 h-5" aria-hidden="true" />
               Get In Touch
