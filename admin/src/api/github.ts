@@ -78,9 +78,22 @@ export function createGitHubClient(token: string, repoInfo: RepoInfo) {
     return { ...JSON.parse(file.content), sha: file.sha };
   }
 
+  const DEFAULT_SECTION_SETTINGS = { hero: true, experience: true, projects: true, skills: true, education: true, certifications: true, contact: true };
+
   async function getSectionSettings(): Promise<Record<string, boolean> & { sha: string }> {
-    const file = await getFile('src/content/sections.json');
-    return { ...JSON.parse(file.content), sha: file.sha };
+    try {
+      const file = await getFile('src/content/sections.json');
+      return { ...DEFAULT_SECTION_SETTINGS, ...JSON.parse(file.content), sha: file.sha };
+    } catch (err) {
+      // File doesn't exist yet on the branch (feature not committed/pushed):
+      // fall back to all-on defaults so first save creates the file.
+      if (err instanceof Error && err.message.includes('(404)')) {
+        // Cast: spread includes sha (string) alongside boolean flags; the
+        // SectionsForm strips sha before treating the rest as booleans.
+        return { ...DEFAULT_SECTION_SETTINGS, sha: '' } as unknown as Record<string, boolean> & { sha: string };
+      }
+      throw err;
+    }
   }
 
   async function updateSectionSettings(settings: Record<string, boolean>, sha: string): Promise<void> {
