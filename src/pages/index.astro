@@ -7,6 +7,7 @@ import Skills from '../components/sections/Skills.astro';
 import Experience from '../components/sections/Experience.astro';
 import Education from '../components/sections/Education.astro';
 import Certifications from '../components/sections/Certifications.astro';
+import Projects from '../components/sections/Projects.astro';
 import Contact from '../components/sections/Contact.astro';
 import { getCollection } from 'astro:content';
 
@@ -15,15 +16,20 @@ const skillsData = await getCollection('skills');
 const experienceData = await getCollection('experience');
 const educationData = await getCollection('education');
 const certificationsData = await getCollection('certifications');
+const projectsData = await getCollection('projects');
 
 const profile = profileData[0]?.data;
 const skills = skillsData.map(s => s.data).sort((a, b) => b.proficiency - a.proficiency || b.yearsExperience - a.yearsExperience);
 const experiences = experienceData.map(e => e.data).sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 const education = educationData.map(e => e.data);
 const certifications = certificationsData.map(c => c.data);
+const projects = projectsData
+  .map(p => p.data)
+  .sort((a, b) => Number(b.featured) - Number(a.featured) || new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
 const navigation = [
   { label: 'Experience', href: '#experience' },
+  { label: 'Projects', href: '#projects' },
   { label: 'Skills', href: '#skills' },
   { label: 'Education', href: '#education' },
   { label: 'Certifications', href: '#certifications' },
@@ -58,6 +64,8 @@ const languages = profile?.languages || [];
     />
 
     <Experience experiences={experiences} />
+
+    <Projects projects={projects} />
 
     <Skills skills={skills} />
 
