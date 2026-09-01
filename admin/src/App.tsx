@@ -14,6 +14,7 @@ import { HeroForm } from './sections/HeroForm';
 import { ContactForm } from './sections/ContactForm';
 import { SectionLoader } from './components/SectionLoader';
 import { AdminIcon } from './components/AdminIcon';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 function SectionContent({ section, client, onSave }: {
   section: SectionKey;
@@ -204,7 +205,9 @@ function AdminApp() {
           <p className="text-surface-500 mt-1">Manage your portfolio content</p>
         </header>
         {client ? (
-          <SectionContent section={activeSection} client={client} onSave={handleSave} />
+          <ErrorBoundary key={activeSection}>
+            <SectionContent section={activeSection} client={client} onSave={handleSave} />
+          </ErrorBoundary>
         ) : (
           <div className="text-center py-12 text-surface-500">Loading...</div>
         )}
