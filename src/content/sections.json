@@ -1,7 +1,7 @@
 {
   "hero": true,
   "experience": true,
-  "projects": true,
+  "projects": false,
   "skills": true,
   "education": true,
   "certifications": true,
