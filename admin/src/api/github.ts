@@ -61,10 +61,25 @@ export function createGitHubClient(token: string, repoInfo: RepoInfo) {
       branch,
     };
     if (sha) payload.sha = sha;
-    await request(`/contents/${path}`, {
-      method: 'PUT',
-      body: JSON.stringify(payload),
-    });
+    try {
+      await request(`/contents/${path}`, {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+      });
+    } catch (err) {
+      // 409 = the file changed on the remote since this form was loaded
+      // (e.g. another commit landed). Re-fetch the current sha and retry
+      // once so the user's edit isn't lost to a stale-version conflict.
+      if (err instanceof Error && err.message.includes('(409)')) {
+        const current = await getFile(path);
+        await request(`/contents/${path}`, {
+          method: 'PUT',
+          body: JSON.stringify({ ...payload, sha: current.sha }),
+        });
+        return;
+      }
+      throw err;
+    }
   }
 
   async function listFiles(dirPath: string): Promise<string[]> {
