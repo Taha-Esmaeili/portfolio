@@ -4,5 +4,6 @@
   "category": "ai",
   "proficiency": 2,
   "yearsExperience": 1,
+  "description": "Deployment, DVC",
   "icon": "tabler:cloud-cog"
 }
