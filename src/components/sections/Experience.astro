@@ -28,7 +28,7 @@ function formatDate(dateStr: string) {
 ---
 
 <Section id="experience" title="Experience" subtitle="My professional journey building software at scale.">
-  <ol class="relative m-0 list-none p-0">
+  <ol class="relative m-0 list-none flex flex-col gap-5 p-0">
     {experiences.map((exp, index) => (
       <li class="relative flex gap-4 sm:gap-6 group animate-in" style={`animation-delay: ${index * 100}ms`}>
         <!-- Timeline rail: dot + connecting line -->
@@ -43,7 +43,7 @@ function formatDate(dateStr: string) {
         </div>
 
         <!-- Content -->
-        <div class="flex-1 pb-10 last:pb-0">
+        <div class="flex-1 pb-0">
           <article class="card p-6 sm:p-8 transition-all duration-300 hover:shadow-soft-lg hover:-translate-y-1">
             <header class="flex items-start gap-4 mb-5">
               {exp.logo && (
