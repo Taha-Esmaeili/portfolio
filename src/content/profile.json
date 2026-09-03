@@ -3,7 +3,7 @@
   "title": "AI & NLP Engineer",
   "tagline": "Building intelligent language systems with NLP, LLMs, and modern machine learning.",
   "bio": "A highly motivated recent Computer Science graduate with practical experience in Natural Language Processing, Machine Learning, and Data Science. Recognized for a strong aptitude for quick learning and problem-solving. Continually advancing my expertise in AI engineering and modern NLP architectures, and committed to designing scalable, data-driven solutions.",
-  "avatar": "/images/avatar.svg",
+  "avatar": "/images/avatar.jpg",
   "email": "taha.karbalaee@gmail.com",
   "phone": "+98 9197296415",
   "location": "Tehran, Iran",
@@ -16,8 +16,14 @@
     "Python Programming"
   ],
   "languages": [
-    { "name": "English", "level": "Fluent" },
-    { "name": "Farsi", "level": "Native" }
+    {
+      "name": "English",
+      "level": "Fluent"
+    },
+    {
+      "name": "Farsi",
+      "level": "Native"
+    }
   ],
   "socialLinks": [
     {
