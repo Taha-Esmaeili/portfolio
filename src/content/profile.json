@@ -1,30 +1,10 @@
 {
   "name": "Taha Esmaeili",
   "title": "AI & NLP Engineer",
-  "tagline": "Building intelligent language systems with NLP, LLMs, and modern machine learning.",
   "bio": "A highly motivated recent Computer Science graduate with practical experience in Natural Language Processing, Machine Learning, and Data Science. Recognized for a strong aptitude for quick learning and problem-solving. Continually advancing my expertise in AI engineering and modern NLP architectures, and committed to designing scalable, data-driven solutions.",
-  "avatar": "/images/avatar.jpg",
   "email": "taha.karbalaee@gmail.com",
   "phone": "+98 9197296415",
   "location": "Tehran, Iran",
-  "expertise": [
-    "Natural Language Processing",
-    "Large Language Models",
-    "Machine Learning",
-    "Data Science",
-    "Recommender Systems",
-    "Python Programming"
-  ],
-  "languages": [
-    {
-      "name": "English",
-      "level": "Fluent"
-    },
-    {
-      "name": "Farsi",
-      "level": "Native"
-    }
-  ],
   "socialLinks": [
     {
       "platform": "linkedin",
@@ -44,5 +24,26 @@
       "label": "Email",
       "icon": "mdi:email"
     }
-  ]
+  ],
+  "expertise": [
+    "Natural Language Processing",
+    "Large Language Models",
+    "Machine Learning",
+    "Data Science",
+    "Recommender Systems",
+    "Python Programming",
+    "AI Agents"
+  ],
+  "languages": [
+    {
+      "name": "English",
+      "level": "Fluent"
+    },
+    {
+      "name": "Farsi",
+      "level": "Native"
+    }
+  ],
+  "avatar": "",
+  "tagline": "Building intelligent language systems with NLP, LLMs, and modern machine learning."
 }
