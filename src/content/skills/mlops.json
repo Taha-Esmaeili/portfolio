@@ -1,0 +1,8 @@
+{
+  "id": "mlops",
+  "name": "MLOps",
+  "category": "ai",
+  "proficiency": 2,
+  "yearsExperience": 1,
+  "icon": "tabler:cloud-cog"
+}
