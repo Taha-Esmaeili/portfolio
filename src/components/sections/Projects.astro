@@ -25,7 +25,7 @@ const { projects } = Astro.props;
 const categories = ['all', 'featured', ...new Set(projects.map(p => p.category))];
 ---
 
-<Section id="projects" title="Projects" subtitle="A selection of my recent work spanning web applications, developer tools, and mobile apps.">
+<Section id="projects" title="Projects">
   <div class="mb-10">
     <div class="flex flex-wrap gap-2 justify-center" role="tablist" aria-label="Project categories">
       {categories.map((cat) => (

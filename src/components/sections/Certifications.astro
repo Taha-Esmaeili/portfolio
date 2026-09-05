@@ -20,7 +20,7 @@ const sorted = [...certifications].sort(
 );
 ---
 
-<Section id="certifications" title="Certifications" subtitle="Professional courses and certifications in AI, ML, and data science.">
+<Section id="certifications" title="Certifications">
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
     {sorted.map((cert, index) => (
       <article class="card p-5 group animate-in hover:border-primary-300 dark:hover:border-primary-700" style={`animation-delay: ${index * 60}ms`}>
