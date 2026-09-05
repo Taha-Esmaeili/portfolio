@@ -1,9 +1,0 @@
-{
-  "id": "python",
-  "name": "Python",
-  "category": "languages",
-  "proficiency": 5,
-  "yearsExperience": 4,
-  "description": "Object-Oriented Programming, Numpy, Pandas",
-  "icon": "simple-icons:python"
-}

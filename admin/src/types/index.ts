@@ -101,6 +101,18 @@ export interface Project {
   category: 'web' | 'mobile' | 'cli' | 'library' | 'other';
 }
 
+export interface Capability {
+  key: string;
+  title: string;
+  description: string;
+  icon: string;
+  tags: string[];
+}
+
+export interface CapabilitiesFile {
+  capabilities: Capability[];
+}
+
 export interface HeroContent {
   tagline: string;
   expertiseBadges: string[];

@@ -1,4 +1,4 @@
-import type { Profile, Skill, SkillCategory, Experience, Education, Certification, Project, HeroContent, ContactContent } from '../types';
+import type { Profile, Capability, Experience, Education, Certification, Project, HeroContent, ContactContent } from '../types';
 
 const GITHUB_API_BASE = 'https://api.github.com/repos';
 
@@ -119,139 +119,14 @@ export function createGitHubClient(token: string, repoInfo: RepoInfo) {
     await updateFile('src/content/profile.json', JSON.stringify(profile, null, 2), 'Update profile', sha);
   }
 
-  const CATEGORY_LABELS: Record<string, string> = {
-    frontend: 'Frontend',
-    backend: 'Backend',
-    devops: 'DevOps',
-    tools: 'Tools',
-    languages: 'Languages',
-    testing: 'Testing',
-    design: 'Design',
-    ai: 'AI & ML',
-    data: 'Data',
-  };
-
-  function slugify(text: string): string {
-    return text
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
+  async function getCapabilities(): Promise<{ capabilities: Capability[]; sha: string }> {
+    const file = await getFile('src/content/capabilities.json');
+    const data = JSON.parse(file.content) as { capabilities: Capability[] };
+    return { capabilities: data.capabilities || [], sha: file.sha };
   }
 
-  const CATEGORY_META_PATH = 'src/content/skill-categories.json';
-
-  async function getCategoryMeta(): Promise<Record<string, { label: string; icon: string }>> {
-    try {
-      const { content } = await getFile(CATEGORY_META_PATH);
-      return JSON.parse(content);
-    } catch (err) {
-      if (err instanceof Error && err.message.includes('(404)')) return {};
-      throw err;
-    }
-  }
-
-  async function getSkills(): Promise<SkillCategory[]> {
-    const paths = await listFiles('src/content/skills');
-    const meta = await getCategoryMeta();
-    const skills: Skill[] = [];
-    for (const path of paths) {
-      const { content } = await getFile(path);
-      skills.push(JSON.parse(content));
-    }
-    const byCategory = new Map<string, Skill[]>();
-    for (const skill of skills) {
-      const list = byCategory.get(skill.category) || [];
-      list.push(skill);
-      byCategory.set(skill.category, list);
-    }
-    return [...byCategory.entries()].map(([key, catSkills]) => ({
-      key: key as SkillCategory['key'],
-      label: meta[key]?.label || CATEGORY_LABELS[key] || key,
-      icon: meta[key]?.icon || 'mdi:tag',
-      skills: catSkills.sort((a, b) => b.proficiency - a.proficiency),
-    }));
-  }
-
-  async function updateSkills(categories: SkillCategory[]): Promise<void> {
-    const desired: { id: string; data: Skill }[] = [];
-    for (const category of categories) {
-      for (const skill of category.skills) {
-        const id = skill.id || slugify(skill.name);
-        if (!id || !skill.name) continue;
-        desired.push({
-          id,
-          data: {
-            id,
-            name: skill.name,
-            category: category.key,
-            proficiency: skill.proficiency,
-            yearsExperience: skill.yearsExperience ?? 0,
-            description: skill.description || undefined,
-            icon: skill.icon || undefined,
-          } as Skill,
-        });
-      }
-    }
-    const desiredIds = new Set(desired.map(d => d.id));
-    const existingPaths = await listFiles('src/content/skills');
-    const existingIds = new Set(existingPaths.map(p => p.split('/').pop()!.replace(/\.json$/, '')));
-
-    // Update or create desired skills
-    for (const { id, data } of desired) {
-      const path = `src/content/skills/${id}.json`;
-      const serialized = JSON.stringify(data, null, 2);
-      if (existingIds.has(id)) {
-        const { content, sha } = await getFile(path);
-        if (content.trim() !== serialized) {
-          await updateFile(path, serialized, `Update skill: ${data.name}`, sha);
-        }
-      } else {
-        await updateFile(path, serialized, `Add skill: ${data.name}`, '');
-      }
-    }
-
-    // Delete skills removed from the form
-    for (const id of existingIds) {
-      if (!desiredIds.has(id)) {
-        await deleteSkill(id);
-      }
-    }
-
-    // Persist category display names/icons so the site renders the edited
-    // labels (delete empty categories from the meta file).
-    const usedKeys = new Set(categories.map(c => c.key));
-    const meta: Record<string, { label: string; icon: string }> = {};
-    for (const category of categories) {
-      if (usedKeys.has(category.key)) {
-        meta[category.key] = { label: category.label, icon: category.icon };
-      }
-    }
-    const metaSerialized = JSON.stringify(meta, null, 2);
-    try {
-      const { content, sha } = await getFile(CATEGORY_META_PATH);
-      if (content.trim() !== metaSerialized) {
-        await updateFile(CATEGORY_META_PATH, metaSerialized, 'Update skill categories', sha);
-      }
-    } catch (err) {
-      if (err instanceof Error && err.message.includes('(404)')) {
-        await updateFile(CATEGORY_META_PATH, metaSerialized, 'Add skill categories', '');
-      } else {
-        throw err;
-      }
-    }
-  }
-
-  async function deleteSkill(id: string): Promise<void> {
-    const { sha } = await getFile(`src/content/skills/${id}.json`);
-    await request(`/contents/src/content/skills/${id}.json`, {
-      method: 'DELETE',
-      body: JSON.stringify({
-        message: `Delete skill: ${id}`,
-        sha,
-        branch,
-      }),
-    });
+  async function updateCapabilities(file: { capabilities: Capability[] }, sha: string): Promise<void> {
+    await updateFile('src/content/capabilities.json', JSON.stringify(file, null, 2), 'Update skills capabilities', sha);
   }
 
   async function getExperience(): Promise<Experience[]> {
@@ -443,10 +318,10 @@ export function createGitHubClient(token: string, repoInfo: RepoInfo) {
     // Content helpers
     getProfile,
     updateProfile,
+    getCapabilities,
+    updateCapabilities,
     getSectionSettings,
     updateSectionSettings,
-    getSkills,
-    updateSkills,
     getExperience,
     updateExperience,
     createExperience,

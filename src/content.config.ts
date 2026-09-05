@@ -41,20 +41,6 @@ const projects = defineCollection({
   }),
 });
 
-const skills = defineCollection({
-  loader: glob({ pattern: '**/*.json', base: 'src/content/skills' }),
-  schema: z.object({
-    id: z.string(),
-    name: z.string(),
-    category: z.enum(['frontend', 'backend', 'devops', 'tools', 'languages', 'testing', 'design', 'ai', 'data']),
-    proficiency: z.number().min(1).max(5),
-    yearsExperience: z.number().min(0),
-    description: z.string().optional(),
-    icon: z.string().optional(),
-    relatedProjects: z.array(z.string()).optional(),
-  }),
-});
-
 const experience = defineCollection({
   loader: glob({ pattern: '**/*.json', base: 'src/content/experience' }),
   schema: z.object({
@@ -109,4 +95,19 @@ const sections = defineCollection({
   }),
 });
 
-export const collections = { profile, projects, skills, experience, education, certifications, sections };
+const capabilities = defineCollection({
+  loader: glob({ pattern: 'capabilities.json', base: 'src/content' }),
+  schema: z.object({
+    capabilities: z.array(
+      z.object({
+        key: z.string(),
+        title: z.string(),
+        description: z.string(),
+        icon: z.string(),
+        tags: z.array(z.string()),
+      })
+    ),
+  }),
+});
+
+export const collections = { profile, projects, capabilities, experience, education, certifications, sections };

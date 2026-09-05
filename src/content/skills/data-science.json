@@ -1,9 +1,0 @@
-{
-  "id": "data-science",
-  "name": "Data Science",
-  "category": "data",
-  "proficiency": 4,
-  "yearsExperience": 3,
-  "description": "Pandas, data analysis & wrangling",
-  "icon": "simple-icons:anaconda"
-}

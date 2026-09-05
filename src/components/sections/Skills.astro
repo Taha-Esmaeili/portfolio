@@ -10,85 +10,11 @@ interface Capability {
   tags: string[];
 }
 
-// Capability-driven architecture: exactly 5 domain cards, no self-ratings
-// or duration counters. Content is authored here; individual skill files
-// in src/content/skills/ are legacy data kept for reference.
-const capabilities: Capability[] = [
-  {
-    key: 'nlp-genai',
-    title: 'NLP & Generative AI',
-    description: 'Architecting modern language models, semantic retrieval, and agentic workflows.',
-    icon: 'tabler:brain',
-    tags: [
-      'Large Language Models (LLMs)',
-      'Transformers',
-      'RAG Architecture',
-      'PEFT / LoRA Fine-Tuning',
-      'LangChain',
-      'LangGraph',
-      'Vector Databases',
-      'Semantic Text Similarity (STS)',
-      'Persian NLP',
-    ],
-  },
-  {
-    key: 'classical-ml',
-    title: 'Predictive Modeling & Classical ML',
-    description: 'End-to-end tabular pipelines, predictive modeling, and robust validation.',
-    icon: 'tabler:chart-bar',
-    tags: [
-      'Scikit-Learn',
-      'XGBoost',
-      'LightGBM',
-      'Random Forest',
-      'Feature Engineering',
-      'Imbalanced Data Handling',
-      'Pandas & NumPy',
-      'Cross-Validation & Metrics',
-    ],
-  },
-  {
-    key: 'recommender',
-    title: 'Recommender Systems',
-    description: 'Personalization engines, matrix factorization, and ranking algorithms.',
-    icon: 'tabler:thumb-up',
-    tags: [
-      'Collaborative Filtering (UBCF / IBCF)',
-      'Matrix Factorization',
-      'Content-Based Filtering',
-      'Hybrid Systems',
-      'Learning to Rank (LTR)',
-    ],
-  },
-  {
-    key: 'software-infra',
-    title: 'Software Engineering & Data Infrastructure',
-    description: 'Production-ready backend services, API design, and data storage.',
-    icon: 'tabler:server-cog',
-    tags: [
-      'Python (OOP)',
-      'FastAPI',
-      'RESTful APIs',
-      'SQL (PostgreSQL, SQLite)',
-      'Git & GitHub Actions',
-      'Data Version Control (DVC)',
-      'Linux / Bash',
-    ],
-  },
-  {
-    key: 'computer-vision',
-    title: 'Computer Vision (Foundations)',
-    description: 'Visual data preprocessing, neural vision pipelines, and OCR.',
-    icon: 'tabler:eye',
-    tags: [
-      'OpenCV',
-      'Convolutional Neural Networks (CNNs)',
-      'Image Preprocessing & Augmentation',
-      'OCR Pipelines',
-      'PyTorch Vision',
-    ],
-  },
-];
+interface Props {
+  capabilities: Capability[];
+}
+
+const { capabilities } = Astro.props;
 ---
 
 <Section id="skills" title="Skills" subtitle="Capability domains I work across — from research-grade modeling to production systems.">

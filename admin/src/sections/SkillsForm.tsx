@@ -1,206 +1,188 @@
 import React, { useState, useEffect } from 'react';
-import type { SkillCategory, Skill } from '../types';
+import type { Capability } from '../types';
 
 interface SkillsFormProps {
-  data: SkillCategory[];
-  onSave: (data: SkillCategory[]) => void;
+  data: { capabilities: Capability[]; sha: string };
+  onSave: (data: { capabilities: Capability[] }) => void;
   saving: boolean;
 }
 
+function emptyCapability(): Capability {
+  return { key: '', title: '', description: '', icon: 'tabler:sparkles', tags: [] };
+}
+
+function slugify(text: string) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'card';
+}
+
 export function SkillsForm({ data, onSave, saving }: SkillsFormProps) {
-  const [categories, setCategories] = useState<SkillCategory[]>(data);
+  const [capabilities, setCapabilities] = useState<Capability[]>(data.capabilities || []);
+  const [newTag, setNewTag] = useState('');
 
   useEffect(() => {
-    setCategories(data);
+    setCapabilities(data.capabilities || []);
   }, [data]);
 
-  const addSkill = (catIndex: number) => {
-    setCategories(cats => cats.map((cat, i) =>
-      i === catIndex ? { ...cat, skills: [...cat.skills, { id: '', name: '', category: cat.key, icon: '', proficiency: 3, yearsExperience: 1, description: '' }] } : cat
-    ));
+  const updateCard = (index: number, field: keyof Capability, value: any) => {
+    setCapabilities(cards => cards.map((c, i) => (i === index ? { ...c, [field]: value } : c)));
   };
 
-  const removeSkill = (catIndex: number, skillIndex: number) => {
-    setCategories(cats => cats.map((cat, i) =>
-      i === catIndex ? { ...cat, skills: cat.skills.filter((_, si) => si !== skillIndex) } : cat
-    ));
+  const addTag = (index: number, tag: string) => {
+    const t = tag.trim();
+    if (!t) return;
+    setCapabilities(cards =>
+      cards.map((c, i) => (i === index && !c.tags.includes(t) ? { ...c, tags: [...c.tags, t] } : c))
+    );
   };
 
-  const updateSkill = (catIndex: number, skillIndex: number, field: keyof Skill, value: any) => {
-    setCategories(cats => cats.map((cat, i) =>
-      i === catIndex ? {
-        ...cat,
-        skills: cat.skills.map((skill, si) =>
-          si === skillIndex ? { ...skill, [field]: value } : skill
-        )
-      } : cat
-    ));
+  const removeTag = (index: number, tagIndex: number) => {
+    setCapabilities(cards =>
+      cards.map((c, i) => (i === index ? { ...c, tags: c.tags.filter((_, ti) => ti !== tagIndex) } : c))
+    );
   };
 
-  const addCategory = () => {
-    setCategories([...categories, { key: 'tools', label: '', icon: 'mdi:tag', skills: [] }]);
-  };
+  const addCard = () => setCapabilities(cards => [...cards, emptyCapability()]);
+  const removeCard = (index: number) => setCapabilities(cards => cards.filter((_, i) => i !== index));
 
-  const removeCategory = (index: number) => {
-    setCategories(cats => cats.filter((_, i) => i !== index));
-  };
-
-  const updateCategory = (index: number, field: 'key' | 'label' | 'icon', value: string) => {
-    setCategories(cats => cats.map((cat, i) =>
-      i === index ? { ...cat, [field]: field === 'key' ? (value as SkillCategory['key']) : value } : cat
-    ));
+  const moveCard = (index: number, dir: -1 | 1) => {
+    setCapabilities(cards => {
+      const next = [...cards];
+      const target = index + dir;
+      if (target < 0 || target >= next.length) return next;
+      [next[index], next[target]] = [next[target], next[index]];
+      return next;
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(categories);
+    const clean = capabilities
+      .filter(c => c.title.trim())
+      .map(c => ({
+        ...c,
+        key: c.key.trim() || slugify(c.title),
+        icon: c.icon.trim() || 'tabler:sparkles',
+        tags: c.tags.map(t => t.trim()).filter(Boolean),
+      }));
+    onSave({ capabilities: clean });
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {categories.map((category, catIndex) => (
-        <div key={catIndex} className="bg-white rounded-xl shadow-sm border border-surface-200 p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-surface-900">Category {catIndex + 1}</h3>
-            <button
-              type="button"
-              onClick={() => removeCategory(catIndex)}
-              className="text-red-500 hover:text-red-700 text-sm font-medium"
-            >
-              Remove Category
-            </button>
-          </div>
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold text-surface-900">Skill Capabilities</h2>
+        <button type="button" onClick={addCard} className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
+          + Add Card
+        </button>
+      </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
-            <div>
-              <label className="block text-sm font-medium text-surface-700 mb-1">Key (unique ID)</label>
-              <input
-                type="text"
-                value={category.key}
-                onChange={e => updateCategory(catIndex, 'key', e.target.value)}
-                className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                placeholder="e.g., frontend"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-surface-700 mb-1">Label</label>
-              <input
-                type="text"
-                value={category.label}
-                onChange={e => updateCategory(catIndex, 'label', e.target.value)}
-                className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                placeholder="e.g., Frontend Development"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-surface-700 mb-1">Icon</label>
-              <input
-                type="text"
-                value={category.icon}
-                onChange={e => updateCategory(catIndex, 'icon', e.target.value)}
-                className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                placeholder="e.g., logos:react"
-              />
-            </div>
-          </div>
+      <p className="text-sm text-surface-500">
+        These cards render in the Skills section. Use the ↑/↓ buttons to order them; the top card appears first.
+      </p>
 
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <h4 className="font-medium text-surface-900">Skills</h4>
+      {capabilities.map((capability, index) => (
+        <div key={index} className="bg-white rounded-xl shadow-sm border border-surface-200 p-6 space-y-4">
+          <div className="flex items-start justify-between">
+            <h3 className="text-lg font-semibold text-surface-900">Card {index + 1}</h3>
+            <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => addSkill(catIndex)}
-                className="px-3 py-1.5 text-sm bg-primary-100 text-primary-700 rounded-lg hover:bg-primary-200"
+                onClick={() => moveCard(index, -1)}
+                disabled={index === 0}
+                className="px-2 py-1 text-sm bg-surface-100 text-surface-700 rounded hover:bg-surface-200 disabled:opacity-40"
               >
-                + Add Skill
+                ↑
+              </button>
+              <button
+                type="button"
+                onClick={() => moveCard(index, 1)}
+                disabled={index === capabilities.length - 1}
+                className="px-2 py-1 text-sm bg-surface-100 text-surface-700 rounded hover:bg-surface-200 disabled:opacity-40"
+              >
+                ↓
+              </button>
+              <button
+                type="button"
+                onClick={() => removeCard(index)}
+                className="px-3 py-1 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200"
+              >
+                Delete
               </button>
             </div>
-            {category.skills.map((skill, skillIndex) => (
-              <div key={skillIndex} className="bg-surface-50 rounded-lg p-4 space-y-3 border border-surface-200">
-                <div className="flex items-center justify-between">
-                  <span className="font-medium text-surface-900">Skill {skillIndex + 1}</span>
-                  <button
-                    type="button"
-                    onClick={() => removeSkill(catIndex, skillIndex)}
-                    className="text-red-500 hover:text-red-700 text-sm"
-                  >
-                    Remove
-                  </button>
-                </div>
-                <div className="grid gap-3 md:grid-cols-4">
-                  <div>
-                    <label className="block text-sm font-medium text-surface-700 mb-1">Name</label>
-                    <input
-                      type="text"
-                      value={skill.name}
-                      onChange={e => updateSkill(catIndex, skillIndex, 'name', e.target.value)}
-                      className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                      placeholder="React"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-surface-700 mb-1">Icon</label>
-                    <input
-                      type="text"
-                      value={skill.icon}
-                      onChange={e => updateSkill(catIndex, skillIndex, 'icon', e.target.value)}
-                      className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                      placeholder="logos:react"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-surface-700 mb-1">Proficiency (1-5)</label>
-                    <input
-                      type="number"
-                      min="1"
-                      max="5"
-                      value={skill.proficiency}
-                      onChange={e => updateSkill(catIndex, skillIndex, 'proficiency', parseInt(e.target.value) || 1)}
-                      className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-surface-700 mb-1">Years of Experience</label>
-                    <input
-                      type="number"
-                      min="0"
-                      value={skill.yearsExperience}
-                      onChange={e => updateSkill(catIndex, skillIndex, 'yearsExperience', parseInt(e.target.value) || 0)}
-                      className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-surface-700 mb-1">Description</label>
-                    <input
-                      type="text"
-                      value={skill.description || ''}
-                      onChange={e => updateSkill(catIndex, skillIndex, 'description', e.target.value)}
-                      className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                      placeholder="Optional description"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label className="block text-sm font-medium text-surface-700 mb-1">Domain Title</label>
+              <input
+                type="text"
+                value={capability.title}
+                onChange={e => updateCard(index, 'title', e.target.value)}
+                className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                placeholder="e.g., NLP & Generative AI"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-surface-700 mb-1">Icon (Iconify name)</label>
+              <input
+                type="text"
+                value={capability.icon}
+                onChange={e => updateCard(index, 'icon', e.target.value)}
+                className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                placeholder="tabler:brain"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-surface-700 mb-1">Description (one line)</label>
+              <input
+                type="text"
+                value={capability.description}
+                onChange={e => updateCard(index, 'description', e.target.value)}
+                className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-surface-700 mb-2">Skills / Tools (badges)</label>
+            <div className="flex flex-wrap gap-2 mb-2">
+              {capability.tags.map((tag, tagIndex) => (
+                <span key={tagIndex} className="inline-flex items-center gap-1 px-3 py-1 bg-surface-100 text-surface-700 rounded-full text-sm">
+                  {tag}
+                  <button type="button" onClick={() => removeTag(index, tagIndex)} className="text-red-500 hover:text-red-700 font-bold">×</button>
+                </span>
+              ))}
+            </div>
+            {capability.tags.length === 0 && (
+              <p className="text-xs text-surface-400 mb-2">No skills yet — add some below.</p>
+            )}
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={newTag}
+                onChange={e => setNewTag(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addTag(index, newTag), setNewTag(''))}
+                className="flex-1 px-4 py-2 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                placeholder="Add a skill/tool..."
+              />
+              <button
+                type="button"
+                onClick={() => (addTag(index, newTag), setNewTag(''))}
+                className="px-4 py-2 bg-primary-100 text-primary-700 rounded-lg hover:bg-primary-200"
+              >
+                Add
+              </button>
+            </div>
           </div>
         </div>
       ))}
-
-      <div className="flex justify-center">
-        <button
-          type="button"
-          onClick={addCategory}
-          className="px-6 py-3 border-2 border-dashed border-primary-300 text-primary-700 rounded-lg hover:bg-primary-50 transition-colors"
-        >
-          + Add Category
-        </button>
-      </div>
 
       <div className="flex justify-end gap-3 pt-4 border-t border-surface-200">
         <button
           type="submit"
           disabled={saving}
-          className="px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {saving ? 'Saving...' : 'Save Changes'}
         </button>

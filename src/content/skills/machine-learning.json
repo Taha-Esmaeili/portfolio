@@ -1,9 +1,0 @@
-{
-  "id": "machine-learning",
-  "name": "Machine Learning",
-  "category": "ai",
-  "proficiency": 5,
-  "yearsExperience": 3,
-  "description": "Scikit-Learn, Model Evaluation & Tuning, Feature Engineering, Ensemble Learning, ",
-  "icon": "tabler:cpu"
-}

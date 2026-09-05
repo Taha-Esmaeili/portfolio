@@ -1,9 +1,0 @@
-{
-  "id": "deep-learning",
-  "name": "Deep Learning",
-  "category": "ai",
-  "proficiency": 4,
-  "yearsExperience": 3,
-  "description": "TensorFlow, PyTorch, Hugging Face Transformers, Fine Tuning, PEFT",
-  "icon": "simple-icons:pytorch"
-}

@@ -42,7 +42,7 @@ function SectionContent({ section, client, onSave }: {
             result = await client.getSectionSettings();
             break;
           case 'skills':
-            result = await client.getSkills();
+            result = await client.getCapabilities();
             break;
           case 'experience':
             result = await client.getExperience();
@@ -87,7 +87,7 @@ function SectionContent({ section, client, onSave }: {
           await client.updateSectionSettings(newData, data.sha);
           break;
         case 'skills':
-          await client.updateSkills(newData);
+          await client.updateCapabilities(newData, data.sha);
           break;
         case 'experience':
           // handled by form component directly

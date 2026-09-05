@@ -17,6 +17,7 @@ const educationData = await getCollection('education');
 const certificationsData = await getCollection('certifications');
 const projectsData = await getCollection('projects');
 const sectionsData = await getCollection('sections');
+const capabilitiesData = await getCollection('capabilities');
 
 const profile = profileData[0]?.data;
 const sectionConfig = sectionsData[0]?.data;
@@ -29,6 +30,7 @@ const certifications = certificationsData.map(c => c.data);
 const projects = projectsData
   .map(p => p.data)
   .sort((a, b) => Number(b.featured) - Number(a.featured) || new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+const capabilities = capabilitiesData[0]?.data.capabilities ?? [];
 
 const navigation = [
   ...(show('experience') ? [{ label: 'Experience', href: '#experience' }] : []),
@@ -73,7 +75,7 @@ const languages = profile?.languages || [];
 
     {show('projects') && <Projects projects={projects} />}
 
-    {show('skills') && <Skills />}
+    {show('skills') && <Skills capabilities={capabilities} />}
 
     {show('education') && <Education education={education} languages={languages} />}
 
