@@ -2,8 +2,8 @@
   "id": "databases",
   "name": "Databases & SQL",
   "category": "backend",
-  "proficiency": 4,
-  "yearsExperience": 3,
+  "proficiency": 3,
+  "yearsExperience": 2,
   "description": "MySQL, SQLite3",
   "icon": "simple-icons:mysql"
 }

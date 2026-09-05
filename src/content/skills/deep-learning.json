@@ -4,6 +4,6 @@
   "category": "ai",
   "proficiency": 4,
   "yearsExperience": 3,
-  "description": "TensorFlow, PyTorch, Hugging Face Transformers",
+  "description": "TensorFlow, PyTorch, Hugging Face Transformers, Fine Tuning, PEFT",
   "icon": "simple-icons:pytorch"
 }
