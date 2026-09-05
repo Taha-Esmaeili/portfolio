@@ -16,6 +16,6 @@
     "Transformers",
     "NLP",
     "PyTorch",
-    "Fast API"
+    "FastAPI"
   ]
 }

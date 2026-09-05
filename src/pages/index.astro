@@ -7,7 +7,7 @@ import Skills from '../components/sections/Skills.astro';
 import Experience from '../components/sections/Experience.astro';
 import Education from '../components/sections/Education.astro';
 import Certifications from '../components/sections/Certifications.astro';
-import Projects from '../components/sections/Projects.astro';
+import FeaturedProjects from '../components/sections/FeaturedProjects.astro';
 import Contact from '../components/sections/Contact.astro';
 import { getCollection } from 'astro:content';
 
@@ -15,7 +15,6 @@ const profileData = await getCollection('profile');
 const experienceData = await getCollection('experience');
 const educationData = await getCollection('education');
 const certificationsData = await getCollection('certifications');
-const projectsData = await getCollection('projects');
 const sectionsData = await getCollection('sections');
 const capabilitiesData = await getCollection('capabilities');
 
@@ -27,14 +26,11 @@ const show = (key: keyof NonNullable<typeof sectionConfig>): boolean =>
 const experiences = experienceData.map(e => e.data).sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 const education = educationData.map(e => e.data);
 const certifications = certificationsData.map(c => c.data);
-const projects = projectsData
-  .map(p => p.data)
-  .sort((a, b) => Number(b.featured) - Number(a.featured) || new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 const capabilities = capabilitiesData[0]?.data.capabilities ?? [];
 
 const navigation = [
   ...(show('experience') ? [{ label: 'Experience', href: '#experience' }] : []),
-  ...(show('projects') ? [{ label: 'Projects', href: '#projects' }] : []),
+  ...(show('projects') ? [{ label: 'Featured Projects', href: '#projects' }] : []),
   ...(show('skills') ? [{ label: 'Skills', href: '#skills' }] : []),
   ...(show('education') ? [{ label: 'Education', href: '#education' }] : []),
   ...(show('certifications') ? [{ label: 'Certifications', href: '#certifications' }] : []),
@@ -73,7 +69,7 @@ const languages = profile?.languages || [];
 
     {show('experience') && <Experience experiences={experiences} />}
 
-    {show('projects') && <Projects projects={projects} />}
+    {show('projects') && <FeaturedProjects />}
 
     {show('skills') && <Skills capabilities={capabilities} />}
 
