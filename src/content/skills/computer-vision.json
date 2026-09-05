@@ -2,8 +2,8 @@
   "id": "computer-vision",
   "name": "Computer Vision",
   "category": "ai",
-  "proficiency": 3,
-  "yearsExperience": 2,
-  "description": "OpenCV, image processing",
+  "proficiency": 2,
+  "yearsExperience": 1,
+  "description": "OpenCV, Image Processing",
   "icon": "simple-icons:opencv"
 }

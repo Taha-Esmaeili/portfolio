@@ -10,5 +10,11 @@
     "Served as the primary Problem Setter for the Artificial Intelligence (Data Processing track) in the Technology Olympics 2025, designing rigorous challenges for both preliminary and final rounds.",
     "Mentored a team of instructors and coordinated curriculum updates across multiple AI/Data courses."
   ],
-  "techStack": ["LLMs", "Python", "Machine Learning", "Course Design"]
+  "techStack": [
+    "LLMs",
+    "Python",
+    "Machine Learning",
+    "Course Design",
+    "AI Agents"
+  ]
 }

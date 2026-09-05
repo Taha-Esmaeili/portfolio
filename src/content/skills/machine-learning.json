@@ -2,8 +2,8 @@
   "id": "machine-learning",
   "name": "Machine Learning",
   "category": "ai",
-  "proficiency": 4,
+  "proficiency": 5,
   "yearsExperience": 3,
-  "description": "Scikit-Learn, model evaluation & tuning",
+  "description": "Scikit-Learn, Model Evaluation & Tuning",
   "icon": "tabler:cpu"
 }
