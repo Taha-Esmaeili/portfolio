@@ -3,7 +3,7 @@
   "name": "LLM Agents",
   "category": "ai",
   "proficiency": 4,
-  "yearsExperience": 2,
+  "yearsExperience": 1,
   "description": "Langchain, LangGraph, RAG, Vector Databases, Prompt Engineering",
-  "icon": "tabler:robot"
+  "icon": "bot"
 }
