@@ -11,5 +11,11 @@
     "Designed and developed the architecture and end-to-end pipelines, driving the project from conception to successful completion.",
     "Optimized model inference to meet production latency and accuracy requirements."
   ],
-  "techStack": ["Python", "Transformers", "NLP", "PyTorch"]
+  "techStack": [
+    "Python",
+    "Transformers",
+    "NLP",
+    "PyTorch",
+    "Fast API"
+  ]
 }
