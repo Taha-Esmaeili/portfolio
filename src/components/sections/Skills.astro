@@ -1,6 +1,9 @@
 ---
 import Section from '../common/Section.astro';
 import Icon from '../ui/Icon.astro';
+import categoryMeta from '../../content/skill-categories.json';
+
+type CategoryMeta = Record<string, { label?: string; icon?: string }>;
 
 interface Props {
   skills: Array<{
@@ -17,13 +20,17 @@ interface Props {
 
 const { skills } = Astro.props;
 
-const categories = [
-  { key: 'ai', label: 'AI & NLP', icon: 'tabler:brain' },
-  { key: 'data', label: 'Data Science', icon: 'tabler:chart-bar' },
-  { key: 'languages', label: 'Languages', icon: 'tabler:code' },
-  { key: 'backend', label: 'Databases', icon: 'tabler:database' },
-  { key: 'tools', label: 'Tools', icon: 'tabler:tools' },
-].filter((cat) => skills.some((s) => s.category === cat.key));
+// Category display names/icons are managed from the admin panel and stored
+// in src/content/skill-categories.json. Categories shown are derived from
+// the skills that actually exist, so hiding/removing skills prunes empty
+// categories automatically.
+const meta = categoryMeta as CategoryMeta;
+const categoryOrder = [...new Set(skills.map((s) => s.category))];
+const categories = categoryOrder.map((key) => ({
+  key,
+  label: meta[key]?.label ?? key,
+  icon: meta[key]?.icon ?? 'mdi:tag',
+}));
 
 const categorySkills = (key: string) => skills.filter((s) => s.category === key);
 ---

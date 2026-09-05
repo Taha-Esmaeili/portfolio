@@ -1,0 +1,11 @@
+{
+  "ai": { "label": "AI & NLP", "icon": "tabler:brain" },
+  "data": { "label": "Data Science", "icon": "tabler:chart-bar" },
+  "languages": { "label": "Languages", "icon": "tabler:code" },
+  "backend": { "label": "Databases", "icon": "tabler:database" },
+  "tools": { "label": "Tools", "icon": "tabler:tools" },
+  "frontend": { "label": "Frontend", "icon": "tabler:layout" },
+  "devops": { "label": "DevOps", "icon": "tabler:server-cog" },
+  "testing": { "label": "Testing", "icon": "tabler:flask" },
+  "design": { "label": "Design", "icon": "tabler:palette" }
+}

@@ -139,8 +139,21 @@ export function createGitHubClient(token: string, repoInfo: RepoInfo) {
       .replace(/^-+|-+$/g, '');
   }
 
+  const CATEGORY_META_PATH = 'src/content/skill-categories.json';
+
+  async function getCategoryMeta(): Promise<Record<string, { label: string; icon: string }>> {
+    try {
+      const { content } = await getFile(CATEGORY_META_PATH);
+      return JSON.parse(content);
+    } catch (err) {
+      if (err instanceof Error && err.message.includes('(404)')) return {};
+      throw err;
+    }
+  }
+
   async function getSkills(): Promise<SkillCategory[]> {
     const paths = await listFiles('src/content/skills');
+    const meta = await getCategoryMeta();
     const skills: Skill[] = [];
     for (const path of paths) {
       const { content } = await getFile(path);
@@ -154,8 +167,8 @@ export function createGitHubClient(token: string, repoInfo: RepoInfo) {
     }
     return [...byCategory.entries()].map(([key, catSkills]) => ({
       key: key as SkillCategory['key'],
-      label: CATEGORY_LABELS[key] || key,
-      icon: 'mdi:tag',
+      label: meta[key]?.label || CATEGORY_LABELS[key] || key,
+      icon: meta[key]?.icon || 'mdi:tag',
       skills: catSkills.sort((a, b) => b.proficiency - a.proficiency),
     }));
   }
@@ -202,6 +215,29 @@ export function createGitHubClient(token: string, repoInfo: RepoInfo) {
     for (const id of existingIds) {
       if (!desiredIds.has(id)) {
         await deleteSkill(id);
+      }
+    }
+
+    // Persist category display names/icons so the site renders the edited
+    // labels (delete empty categories from the meta file).
+    const usedKeys = new Set(categories.map(c => c.key));
+    const meta: Record<string, { label: string; icon: string }> = {};
+    for (const category of categories) {
+      if (usedKeys.has(category.key)) {
+        meta[category.key] = { label: category.label, icon: category.icon };
+      }
+    }
+    const metaSerialized = JSON.stringify(meta, null, 2);
+    try {
+      const { content, sha } = await getFile(CATEGORY_META_PATH);
+      if (content.trim() !== metaSerialized) {
+        await updateFile(CATEGORY_META_PATH, metaSerialized, 'Update skill categories', sha);
+      }
+    } catch (err) {
+      if (err instanceof Error && err.message.includes('(404)')) {
+        await updateFile(CATEGORY_META_PATH, metaSerialized, 'Add skill categories', '');
+      } else {
+        throw err;
       }
     }
   }
