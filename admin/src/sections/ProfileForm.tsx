@@ -92,6 +92,9 @@ export function ProfileForm({ data, onSave, saving }: ProfileFormProps) {
     e.preventDefault();
     const payload = {
       ...form,
+      // The avatar is managed via git (public/images/avatar.jpg); never let
+      // a form submission clear it.
+      avatar: form.avatar || data.avatar || '/images/avatar.jpg',
       socialLinks,
       expertise,
       languages,
@@ -158,15 +161,10 @@ export function ProfileForm({ data, onSave, saving }: ProfileFormProps) {
               className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-surface-700 mb-1">Avatar URL (optional)</label>
-            <input
-              type="url"
-              value={form.avatar || ''}
-              onChange={e => handleChange('avatar', e.target.value)}
-              className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              placeholder="/images/avatar.svg"
-            />
+          <div className="text-sm text-surface-500 bg-surface-50 border border-surface-200 rounded-lg p-3">
+            ℹ️ The profile picture is managed as an image file in the repository
+            (<code className="text-xs">public/images/avatar.jpg</code>) and can't be changed here.
+            Editing this form always preserves it.
           </div>
         </div>
       </div>
