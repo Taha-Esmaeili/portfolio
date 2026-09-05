@@ -1,0 +1,8 @@
+{
+  "id": "recommender-systems",
+  "name": "Recommender Systems",
+  "category": "ai",
+  "proficiency": 4,
+  "yearsExperience": 2,
+  "description": "CBF, UBCF, IBCF, Matrix Factorization, Hybrid Systems, LTR"
+}
