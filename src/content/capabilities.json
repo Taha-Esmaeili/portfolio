@@ -55,10 +55,10 @@
         "Python (OOP)",
         "FastAPI",
         "RESTful APIs",
-        "SQL (PostgreSQL, SQLite)",
         "Git & GitHub Actions",
         "Data Version Control (DVC)",
-        "Linux / Bash"
+        "Linux / Bash",
+        "SQL (MySQL, SQLite)"
       ]
     },
     {
