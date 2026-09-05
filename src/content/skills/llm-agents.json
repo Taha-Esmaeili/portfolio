@@ -4,6 +4,5 @@
   "category": "ai",
   "proficiency": 4,
   "yearsExperience": 2,
-  "description": "Langchain, LangGraph, RAG, Vector Databases, Prompt Engineering",
-  "icon": "tabler:bot"
+  "description": "Langchain, LangGraph, RAG, Vector Databases, Prompt Engineering"
 }
