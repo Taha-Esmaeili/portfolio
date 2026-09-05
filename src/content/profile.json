@@ -1,6 +1,6 @@
 {
   "name": "Taha Esmaeili",
-  "title": "AI & NLP Engineer",
+  "title": "AI & ML Engineer",
   "bio": "A highly motivated recent Computer Science graduate with practical experience in Natural Language Processing, Machine Learning, and Data Science. Recognized for a strong aptitude for quick learning and problem-solving. Continually advancing my expertise in AI engineering and modern NLP architectures, and committed to designing scalable, data-driven solutions.",
   "email": "taha.karbalaee@gmail.com",
   "phone": "+98 9197296415",
@@ -44,6 +44,6 @@
       "level": "Native"
     }
   ],
-  "avatar": "/images/avatar.jpg",
+  "avatar": "",
   "tagline": "Building intelligent language systems with NLP, LLMs, and modern machine learning."
 }
