@@ -62,31 +62,6 @@ const categorySkills = (key: string) => skills.filter((s) => s.category === key)
                   {skill.description && (
                     <p class="text-xs text-surface-600 dark:text-surface-400 mt-0.5 leading-snug">{skill.description}</p>
                   )}
-                  <div class="mt-2.5 flex items-center gap-3">
-                    <div class="flex-1 h-2 bg-surface-100 dark:bg-surface-800 rounded-full overflow-hidden">
-                      <div
-                        class="h-full rounded-full bg-gradient-to-r from-primary-500 to-primary-400 transition-[width] duration-700 ease-out"
-                        style="width: 0%"
-                        data-proficiency={skill.proficiency * 20}
-                        role="progressbar"
-                        aria-valuenow={skill.proficiency * 20}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        aria-label={`${skill.name} proficiency`}
-                      />
-                    </div>
-                    <span class="text-xs font-mono text-surface-500 dark:text-surface-400 w-10 text-right tabular-nums">{skill.proficiency}/5</span>
-                  </div>
-                  <div class="mt-2 flex items-center gap-1.5 text-xs text-surface-500 dark:text-surface-400">
-                    <Icon name="mdi:calendar" class="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>{skill.yearsExperience}+ yrs</span>
-                    {skill.relatedProjects && skill.relatedProjects.length > 0 && (
-                      <>
-                        <span aria-hidden="true">·</span>
-                        <span>{skill.relatedProjects.length} project{skill.relatedProjects.length !== 1 ? 's' : ''}</span>
-                      </>
-                    )}
-                  </div>
                 </div>
               </div>
             </article>
@@ -96,28 +71,6 @@ const categorySkills = (key: string) => skills.filter((s) => s.category === key)
     ))}
   </div>
 </Section>
-
-<script>
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const bars = entry.target.querySelectorAll('[data-proficiency]');
-          bars.forEach((bar, index) => {
-            const proficiency = bar.getAttribute('data-proficiency');
-            setTimeout(() => {
-              (bar as HTMLElement).style.width = `${proficiency}%`;
-            }, index * 100);
-          });
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.3 }
-  );
-
-  document.querySelectorAll('#skills article').forEach((el) => observer.observe(el));
-</script>
 
 <style>
   :host {
