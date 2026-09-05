@@ -1,7 +1,7 @@
 {
   "name": "Taha Esmaeili",
-  "title": "AI & ML Engineer",
-  "bio": "A highly motivated recent Computer Science graduate with practical experience in Natural Language Processing, Machine Learning, and Data Science. Recognized for a strong aptitude for quick learning and problem-solving. Continually advancing my expertise in AI engineering and modern NLP architectures, and committed to designing scalable, data-driven solutions.",
+  "title": "Machine Learning & Applied AI Engineer",
+  "bio": "Computer Science graduate from K. N. Toosi University specializing in Machine Learning, modern NLP architectures, and Recommender Systems. Experienced in taking models from research to production by building end-to-end data pipelines, fine-tuning Transformers, and serving low-latency inference services. Driven by solving complex algorithmic challenges and creating high-impact, data-driven systems.",
   "email": "taha.karbalaee@gmail.com",
   "phone": "+98 9197296415",
   "location": "Tehran, Iran",
@@ -45,5 +45,5 @@
     }
   ],
   "avatar": "/images/avatar.jpg",
-  "tagline": "Building intelligent language systems with NLP, LLMs, and modern machine learning."
+  "tagline": "Designing, fine-tuning, and deploying production-grade ML models across NLP, Recommender Systems, and Predictive Analytics."
 }
