@@ -1,92 +1,47 @@
 ---
 import Section from '../common/Section.astro';
 import Icon from '../ui/Icon.astro';
+import { getCollection } from 'astro:content';
 
-interface FeaturedProject {
-  domain: string;
-  title: string;
-  overview: string;
-  highlights: string[];
-  techStack: string[];
-}
-
-// Proprietary / closed-source systems, so cards carry a privacy badge
-// rather than external links.
-const projects: FeaturedProject[] = [
-  {
-    domain: 'NLP & Speech AI',
-    title: 'Two-Stage Neural Grapheme-to-Phoneme (G2P) Engine',
-    overview:
-      'Architected a high-precision phonetic transcription engine for speech synthesis pipelines by benchmarking custom sequence-to-sequence models against parameter-efficient fine-tuning (PEFT/LoRA) techniques.',
-    highlights: [
-      'Designed a two-stage curriculum strategy: pre-trained a Seq2Seq Transformer on a massive synthetic corpus re-labeled via teacher-model distillation, then fine-tuned on high-quality pronunciation data.',
-      'Significantly outperformed single-stage blended training, achieving higher phonetic accuracy and generalization on complex out-of-vocabulary tokens.',
-    ],
-    techStack: ['PyTorch', 'Transformers', 'Seq2Seq', 'Curriculum Learning', 'Synthetic Data Generation', 'PEFT / LoRA', 'Speech Processing'],
-  },
-  {
-    domain: 'Production NLP & MLOps',
-    title: 'High-Throughput STS Microservice & Automated Continuous Training Pipeline',
-    overview:
-      'Directed the R&D and deployment of an end-to-end Semantic Textual Similarity (STS) system, encompassing custom benchmark dataset curation, multi-model fine-tuning, and an automated continuous training (CT) workflow for zero-downtime production deployment.',
-    highlights: [
-                  'Curated and validated an in-house benchmark similarity dataset based on rigorous semantic metrics to guide domain-specific Transformer fine-tuning and model selection.',
-      'Engineered an automated Continuous Training (CT) and redeployment pipeline',
-      'Optimized transformer inference latency and resource footprint via asynchronous FastAPI microservice endpoints, meeting stringent real-time SLA thresholds.',
-    ],
-    techStack: ['FastAPI', 'PyTorch', 'Transformers', 'Continuous Training (CT)', 'MLOps', 'Automated Retraining', 'Dataset Curation', 'Sentence Embeddings'],
-  },
-  {
-    domain: 'Recommender Systems & ML',
-    title: 'Content-Based Restaurant Recommender via User-Item Textual Profiling',
-    overview:
-      'Developed a personalized recommendation and ranking engine addressing extreme rating skew and implicit feedback nuances using the public SnappFood dataset.',
-    highlights: [
-      'Mitigated severe 5-star rating bias by reframing user preference into a purchase-propensity classification task rather than raw score regression.',
-      'Synthesized semantic user/restaurant profiles with TF-IDF representations of review corpora to match latent preferences, ranking candidates via calibrated probabilities.',
-    ],
-    techStack: ['Recommender Systems', 'NLP (TF-IDF)', 'Implicit Feedback', 'Ranking & Scoring', 'Scikit-Learn', 'SnappFood Dataset'],
-  },
-  {
-    domain: 'Computer Vision & Deep Learning',
-    title: 'End-to-End Sequence OCR & Handwritten Text Recognition Pipeline',
-    overview:
-      'Implemented an alignment-free sequence recognition pipeline to transcribe variable-length, highly noisy numeric sequences and CAPTCHA-like images.',
-    highlights: [
-      'Constructed a CRNN combining convolutional backbones for visual feature extraction with Bidirectional LSTMs to capture temporal sequential dependencies.',
-      'Used Connectionist Temporal Classification (CTC) Loss to train without expensive character-level segmentation on variable-length inputs (2 to 6+ digits).',
-    ],
-    techStack: ['PyTorch', 'Computer Vision', 'CRNN', 'Bidirectional LSTM', 'CTC Loss', 'OpenCV', 'Image Augmentation'],
-  },
-];
+// Featured projects come from the src/content/projects collection so they can
+// be managed from the admin panel. Only entries flagged `featured` are shown,
+// newest first.
+const allProjects = await getCollection('projects');
+const projects = allProjects
+  .map(({ data }) => data)
+  .filter((p) => p.featured)
+  .sort((a, b) => b.startDate.localeCompare(a.startDate));
 ---
-
 <Section id="projects" title="Featured Projects">
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     {projects.map((project) => (
       <article class="card p-6 group flex flex-col hover:border-primary-300 dark:hover:border-primary-700 transition-all duration-300 hover:shadow-soft-lg hover:-translate-y-1">
         <div class="flex items-center justify-between gap-3 mb-4">
           <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 border border-primary-100 dark:border-primary-800">
-            {project.domain}
+            {project.domain ?? project.category}
           </span>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-surface-100/80 dark:bg-surface-800/80 border border-surface-200 dark:border-surface-700 text-surface-600 dark:text-surface-400">
-            <Icon name="tabler:lock" class="w-3.5 h-3.5" aria-hidden="true" />
-            Enterprise / Private Architecture
-          </span>
+          {!project.liveUrl && !project.codeUrl && (
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-surface-100/80 dark:bg-surface-800/80 border border-surface-200 dark:border-surface-700 text-surface-600 dark:text-surface-400">
+              <Icon name="tabler:lock" class="w-3.5 h-3.5" aria-hidden="true" />
+              Enterprise / Private Architecture
+            </span>
+          )}
         </div>
 
         <h3 class="text-lg font-semibold text-surface-900 dark:text-surface-50 leading-snug">{project.title}</h3>
 
-        <p class="text-sm text-surface-600 dark:text-surface-400 mt-3 leading-relaxed">{project.overview}</p>
+        <p class="text-sm text-surface-600 dark:text-surface-400 mt-3 leading-relaxed">{project.description}</p>
 
-        <ul class="mt-4 space-y-2.5 flex-1" role="list" aria-label={`${project.title} highlights`}>
-          {project.highlights.map((point) => (
-            <li class="flex gap-2.5 text-sm text-surface-600 dark:text-surface-400 leading-relaxed" role="listitem">
-              <Icon name="tabler:check" class="w-4 h-4 flex-shrink-0 text-primary-500 dark:text-primary-400 mt-0.5" aria-hidden="true" />
-              <span>{point}</span>
-            </li>
-          ))}
-        </ul>
+        {project.highlights && project.highlights.length > 0 && (
+          <ul class="mt-4 space-y-2.5 flex-1" role="list" aria-label={`${project.title} highlights`}>
+            {project.highlights.map((point) => (
+              <li class="flex gap-2.5 text-sm text-surface-600 dark:text-surface-400 leading-relaxed" role="listitem">
+                <Icon name="tabler:check" class="w-4 h-4 flex-shrink-0 text-primary-500 dark:text-primary-400 mt-0.5" aria-hidden="true" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        )}
 
         <ul class="mt-5 flex flex-wrap gap-2" role="list" aria-label="Technologies">
           {project.techStack.map((tag) => (

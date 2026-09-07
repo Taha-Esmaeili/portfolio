@@ -1,0 +1,15 @@
+{
+  "id": "restaurant-recommender",
+  "title": "Content-Based Restaurant Recommender via User-Item Textual Profiling",
+  "description": "Developed a personalized recommendation and ranking engine addressing extreme rating skew and implicit feedback nuances using the public SnappFood dataset.",
+  "shortDescription": "Content-based recommender tackling rating skew and implicit feedback on SnappFood data",
+  "domain": "Recommender Systems & ML",
+  "highlights": [
+    "Mitigated severe 5-star rating bias by reframing user preference into a purchase-propensity classification task rather than raw score regression.",
+    "Synthesized semantic user/restaurant profiles with TF-IDF representations of review corpora to match latent preferences, ranking candidates via calibrated probabilities."
+  ],
+  "techStack": ["Recommender Systems", "NLP (TF-IDF)", "Implicit Feedback", "Ranking & Scoring", "Scikit-Learn", "SnappFood Dataset"],
+  "featured": true,
+  "startDate": "2023-06-01T00:00:00Z",
+  "category": "other"
+}

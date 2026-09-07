@@ -1,0 +1,16 @@
+{
+  "id": "sts-continuous-training",
+  "title": "High-Throughput STS Microservice & Automated Continuous Training Pipeline",
+  "description": "Directed the R&D and deployment of an end-to-end Semantic Textual Similarity (STS) system, encompassing custom benchmark dataset curation, multi-model fine-tuning, and an automated continuous training (CT) workflow for zero-downtime production deployment.",
+  "shortDescription": "End-to-end STS system with automated continuous training and zero-downtime deployment",
+  "domain": "Production NLP & MLOps",
+  "highlights": [
+    "Curated and validated an in-house benchmark similarity dataset based on rigorous semantic metrics to guide domain-specific Transformer fine-tuning and model selection.",
+    "Engineered an automated Continuous Training (CT) and redeployment pipeline",
+    "Optimized transformer inference latency and resource footprint via asynchronous FastAPI microservice endpoints, meeting stringent real-time SLA thresholds."
+  ],
+  "techStack": ["FastAPI", "PyTorch", "Transformers", "Continuous Training (CT)", "MLOps", "Automated Retraining", "Dataset Curation", "Sentence Embeddings"],
+  "featured": true,
+  "startDate": "2024-06-01T00:00:00Z",
+  "category": "other"
+}

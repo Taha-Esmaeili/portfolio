@@ -16,6 +16,8 @@ function emptyProject(): Project {
     title: '',
     description: '',
     shortDescription: '',
+    domain: '',
+    highlights: [],
     image: '',
     techStack: [],
     liveUrl: '',
@@ -77,6 +79,9 @@ export function ProjectsForm({ data, client, saving }: ProjectsFormProps) {
         ...form,
         id: form.id || form.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
         techStack: form.techStack.filter(t => t.trim()),
+        domain: form.domain?.trim() || undefined,
+        highlights: form.highlights?.length ? form.highlights : undefined,
+        image: form.image?.trim() || undefined,
         liveUrl: form.liveUrl || undefined,
         codeUrl: form.codeUrl || undefined,
         endDate: form.endDate || undefined,
@@ -161,14 +166,23 @@ export function ProjectsForm({ data, client, saving }: ProjectsFormProps) {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-surface-700 mb-1">Image path/URL</label>
+                <label className="block text-sm font-medium text-surface-700 mb-1">Domain label (optional)</label>
                 <input
                   type="text"
-                  value={form.image}
+                  value={form.domain || ''}
+                  onChange={e => setForm(prev => ({ ...prev, domain: e.target.value }))}
+                  className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  placeholder="e.g., NLP & Speech AI"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-surface-700 mb-1">Image path/URL (optional)</label>
+                <input
+                  type="text"
+                  value={form.image || ''}
                   onChange={e => setForm(prev => ({ ...prev, image: e.target.value }))}
                   className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   placeholder="/images/projects/my-project.svg"
-                  required
                 />
               </div>
               <div>
@@ -231,6 +245,17 @@ export function ProjectsForm({ data, client, saving }: ProjectsFormProps) {
                 onChange={e => setForm(prev => ({ ...prev, description: e.target.value }))}
                 className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-surface-700 mb-1">Highlights (optional, one per line — shown as checkmark bullets on the site)</label>
+              <textarea
+                rows={4}
+                value={(form.highlights || []).join('\n')}
+                onChange={e => setForm(prev => ({ ...prev, highlights: e.target.value.split('\n').map(l => l.trim()).filter(Boolean) }))}
+                className="w-full px-4 py-2.5 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                placeholder={'Designed a two-stage curriculum strategy...\nAchieved higher phonetic accuracy...'}
               />
             </div>
 

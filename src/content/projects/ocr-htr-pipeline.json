@@ -1,0 +1,15 @@
+{
+  "id": "ocr-htr-pipeline",
+  "title": "End-to-End Sequence OCR & Handwritten Text Recognition Pipeline",
+  "description": "Implemented an alignment-free sequence recognition pipeline to transcribe variable-length, highly noisy numeric sequences and CAPTCHA-like images.",
+  "shortDescription": "CRNN + CTC pipeline for noisy variable-length sequence recognition",
+  "domain": "Computer Vision & Deep Learning",
+  "highlights": [
+    "Constructed a CRNN combining convolutional backbones for visual feature extraction with Bidirectional LSTMs to capture temporal sequential dependencies.",
+    "Used Connectionist Temporal Classification (CTC) Loss to train without expensive character-level segmentation on variable-length inputs (2 to 6+ digits)."
+  ],
+  "techStack": ["PyTorch", "Computer Vision", "CRNN", "Bidirectional LSTM", "CTC Loss", "OpenCV", "Image Augmentation"],
+  "featured": true,
+  "startDate": "2023-01-01T00:00:00Z",
+  "category": "other"
+}

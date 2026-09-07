@@ -91,7 +91,9 @@ export interface Project {
   title: string;
   description: string;
   shortDescription: string;
-  image: string;
+  domain?: string;
+  highlights?: string[];
+  image?: string;
   techStack: string[];
   liveUrl?: string;
   codeUrl?: string;
