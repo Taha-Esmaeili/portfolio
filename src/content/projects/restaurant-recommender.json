@@ -8,8 +8,15 @@
     "Mitigated severe 5-star rating bias by reframing user preference into a purchase-propensity classification task rather than raw score regression.",
     "Synthesized semantic user/restaurant profiles with TF-IDF representations of review corpora to match latent preferences, ranking candidates via calibrated probabilities."
   ],
-  "techStack": ["Recommender Systems", "NLP (TF-IDF)", "Implicit Feedback", "Ranking & Scoring", "Scikit-Learn", "SnappFood Dataset"],
-  "featured": true,
+  "techStack": [
+    "Recommender Systems",
+    "NLP (TF-IDF)",
+    "Implicit Feedback",
+    "Ranking & Scoring",
+    "Scikit-Learn",
+    "SnappFood Dataset"
+  ],
+  "featured": false,
   "startDate": "2023-06-01T00:00:00Z",
   "category": "other"
 }
