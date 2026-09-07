@@ -3,23 +3,30 @@ import Section from '../common/Section.astro';
 import Icon from '../ui/Icon.astro';
 import { getCollection } from 'astro:content';
 
-// Featured projects come from the src/content/projects collection so they can
-// be managed from the admin panel. Only entries flagged `featured` are shown,
-// newest first.
+// Projects come from the src/content/projects collection so they can be
+// managed from the admin panel. All projects are shown, newest first, with a
+// "Featured" badge on cards flagged `featured`.
 const allProjects = await getCollection('projects');
 const projects = allProjects
   .map(({ data }) => data)
-  .filter((p) => p.featured)
   .sort((a, b) => b.startDate.localeCompare(a.startDate));
 ---
-<Section id="projects" title="Featured Projects">
+<Section id="projects" title="Projects">
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     {projects.map((project) => (
       <article class="card p-6 group flex flex-col hover:border-primary-300 dark:hover:border-primary-700 transition-all duration-300 hover:shadow-soft-lg hover:-translate-y-1">
         <div class="flex items-center justify-between gap-3 mb-4">
-          <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 border border-primary-100 dark:border-primary-800">
-            {project.domain ?? project.category}
-          </span>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 border border-primary-100 dark:border-primary-800">
+              {project.domain ?? project.category}
+            </span>
+            {project.featured && (
+              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border border-amber-100 dark:border-amber-800">
+                <Icon name="tabler:star-filled" class="w-3.5 h-3.5" aria-hidden="true" />
+                Featured
+              </span>
+            )}
+          </div>
           {!project.liveUrl && !project.codeUrl && (
             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-surface-100/80 dark:bg-surface-800/80 border border-surface-200 dark:border-surface-700 text-surface-600 dark:text-surface-400">
               <Icon name="tabler:lock" class="w-3.5 h-3.5" aria-hidden="true" />
