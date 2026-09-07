@@ -40,5 +40,7 @@
     }
   ],
   "avatar": "/images/avatar.jpg",
-  "tagline": "Designing, fine-tuning, and deploying production-grade ML models across NLP, Recommender Systems, and Predictive Analytics."
+  "tagline": "Designing, fine-tuning, and deploying production-grade ML models across NLP, Recommender Systems, and Predictive Analytics.",
+  "availability": "",
+  "contactAccessKey": "0ebdb0e8-6f5f-4e15-b0c6-427275de59c7"
 }
