@@ -17,12 +17,6 @@
       "url": "https://github.com/Taha-Esmaeili",
       "label": "GitHub",
       "icon": "logos:github-icon"
-    },
-    {
-      "platform": "email",
-      "url": "mailto:taha.karbalaee@gmail.com",
-      "label": "Email",
-      "icon": "mdi:email"
     }
   ],
   "expertise": [
