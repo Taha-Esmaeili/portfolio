@@ -72,11 +72,21 @@ export function createGitHubClient(token: string, repoInfo: RepoInfo) {
       // once so the user's edit isn't lost to a stale-version conflict.
       if (err instanceof Error && err.message.includes('(409)')) {
         const current = await getFile(path);
-        await request(`/contents/${path}`, {
-          method: 'PUT',
-          body: JSON.stringify({ ...payload, sha: current.sha }),
-        });
-        return;
+        try {
+          await request(`/contents/${path}`, {
+            method: 'PUT',
+            body: JSON.stringify({ ...payload, sha: current.sha }),
+          });
+          return;
+        } catch (retryErr) {
+          if (retryErr instanceof Error && retryErr.message.includes('(409)')) {
+            throw new Error(
+              'This file keeps changing on GitHub (another save landed mid-flight). ' +
+              'Refresh the admin page and try again — your edit is still in the form.'
+            );
+          }
+          throw retryErr;
+        }
       }
       throw err;
     }
