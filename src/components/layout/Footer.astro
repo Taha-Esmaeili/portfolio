@@ -8,7 +8,6 @@ interface Props {
 }
 
 const { socialLinks, email, name = 'Taha Esmaeili' } = Astro.props;
-const currentYear = new Date().getFullYear();
 ---
 
 <footer class="bg-surface-50 dark:bg-surface-950 border-t border-surface-200 dark:border-surface-800" role="contentinfo">
@@ -77,10 +76,7 @@ const currentYear = new Date().getFullYear();
       </div>
     </div>
     
-    <div class="mt-12 pt-8 border-t border-surface-200 dark:border-surface-800 flex flex-col md:flex-row items-center justify-between gap-4">
-      <p class="text-sm text-surface-500 dark:text-surface-400">
-        &copy; {currentYear} {name}. Built with Astro, Tailwind CSS & TypeScript.
-      </p>
+    <div class="mt-12 pt-8 border-t border-surface-200 dark:border-surface-800 flex justify-center">
       <a
         href="#"
         class="scroll-to-top p-2 rounded-lg text-surface-500 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-surface-100 dark:hover:bg-surface-800 transition-all duration-200"
