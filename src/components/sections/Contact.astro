@@ -11,6 +11,10 @@ interface Props {
 }
 
 const { email, socialLinks, location, phone } = Astro.props;
+
+// Contact form delivery (Web3Forms). Set PUBLIC_WEB3FORMS_KEY in .env locally
+// or as the PUBLIC_WEB3FORMS_KEY repository secret for GitHub Pages builds.
+const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
 ---
 
 <Section id="contact" title="Get In Touch" subtitle="Have a project in mind or just want to say hi? I'd love to hear from you.">
@@ -76,7 +80,7 @@ const { email, socialLinks, location, phone } = Astro.props;
     </div>
     
     <div class="animate-in delay-100">
-      <form id="contact-form" class="space-y-6 bg-surface-50 dark:bg-surface-900 p-8 rounded-2xl border border-surface-200 dark:border-surface-800" novalidate>
+      <form id="contact-form" data-web3forms-key={web3formsKey} class="space-y-6 bg-surface-50 dark:bg-surface-900 p-8 rounded-2xl border border-surface-200 dark:border-surface-800" novalidate>
         <div>
           <label for="name" class="label">Name</label>
           <input type="text" id="name" name="name" class="input" placeholder="Your name" required aria-required="true" />
@@ -144,13 +148,26 @@ const { email, socialLinks, location, phone } = Astro.props;
       
       const formData = new FormData(form);
       const data = Object.fromEntries(formData);
-      
+      const accessKey = form.dataset.web3formsKey;
+
+      if (!accessKey) {
+        // Form backend not configured (missing Web3Forms access key)
+        showToast('The contact form is not configured yet. Please email me directly instead.', 'error');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText || '';
+        }
+        return;
+      }
+
       try {
         const response = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            access_key: 'YOUR_WEB3FORMS_KEY',
+            access_key: accessKey,
+            subject: `Portfolio contact: ${data.subject || 'New message'}`,
+            from_name: 'Portfolio Contact Form',
             ...data,
             botcheck: '',
           }),

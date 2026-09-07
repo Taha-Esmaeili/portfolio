@@ -27,6 +27,8 @@ jobs:
         run: npm ci --legacy-peer-deps && npm run build
         working-directory: admin
       - run: npm run build
+        env:
+          PUBLIC_WEB3FORMS_KEY: ${{ secrets.PUBLIC_WEB3FORMS_KEY }}
       - run: touch dist/.nojekyll
       - name: Ensure Pages is enabled for Actions deploys
         uses: actions/configure-pages@v5
