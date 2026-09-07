@@ -1,6 +1,6 @@
 {
   "id": "g2p-engine",
-  "title": "Two-Stage Neural Grapheme-to-Phoneme (G2P) Engine",
+  "title": "Grapheme-to-Phoneme (G2P)",
   "description": "Architected a high-precision phonetic transcription engine for speech synthesis pipelines by benchmarking custom sequence-to-sequence models against parameter-efficient fine-tuning (PEFT/LoRA) techniques.",
   "shortDescription": "High-precision neural G2P engine for speech synthesis pipelines",
   "domain": "NLP & Speech AI",
@@ -8,7 +8,15 @@
     "Designed a two-stage curriculum strategy: pre-trained a Seq2Seq Transformer on a massive synthetic corpus re-labeled via teacher-model distillation, then fine-tuned on high-quality pronunciation data.",
     "Significantly outperformed single-stage blended training, achieving higher phonetic accuracy and generalization on complex out-of-vocabulary tokens."
   ],
-  "techStack": ["PyTorch", "Transformers", "Seq2Seq", "Curriculum Learning", "Synthetic Data Generation", "PEFT / LoRA", "Speech Processing"],
+  "techStack": [
+    "PyTorch",
+    "Transformers",
+    "Seq2Seq",
+    "Curriculum Learning",
+    "Synthetic Data Generation",
+    "PEFT / LoRA",
+    "Speech Processing"
+  ],
   "featured": true,
   "startDate": "2024-01-01T00:00:00Z",
   "category": "other"
