@@ -1,8 +1,15 @@
-# Taha Esmaeili — Portfolio
+# Portfolio Website
 
-Personal portfolio website built with **Astro**, **Tailwind CSS**, and **TypeScript**, plus a React-based **admin panel** for editing content directly in the repo via the GitHub API.
+A personal portfolio website built with **Astro**, **Tailwind CSS**, and **TypeScript**.
 
-**Live site**: https://tahaes.dev/portfolio/
+**Live site**: https://taha-esmaeili.github.io/portfolio/
+
+## Tech Stack
+
+- [Astro](https://astro.build) — static site generation
+- [Tailwind CSS](https://tailwindcss.com) — styling
+- [TypeScript](https://www.typescriptlang.org) — type-safe content and utilities
+- [React](https://react.dev) — admin panel for editing content (Vite)
 
 ## Features
 
@@ -13,7 +20,6 @@ Personal portfolio website built with **Astro**, **Tailwind CSS**, and **TypeScr
 - SEO: Open Graph / Twitter cards, JSON-LD (Person + WebSite), sitemap, robots.txt
 - Print-friendly stylesheet
 - Static output, zero runtime dependencies on the main site
-- **Lighthouse: 100 / 100 / 100 / 100** (Performance / Accessibility / Best Practices / SEO)
 
 ## Project Structure
 
